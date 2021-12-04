@@ -8,29 +8,31 @@ import {
   TextInput,
   Button,
   TouchableOpacity,
+  ImageBackground,
 } from "react-native";
 import logo from './assets/QU3ST2.png';
-import textStyling from './assets/textStyling.css';
+import bg from './assets/background.png';
 
-export default function Register() {
+export default function mobileRegister() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   return (
     <View style={styles.wrap}>
+        <ImageBackground source={bg} style={{width: '100%', height: '100%', alignItems: 'center'}}>
 
       <StatusBar style="auto" />
 
-      <View style={[styles.regBox, textStyling.bg]}>
+      <View style={[styles.regBox, {justifyContent: 'center'}]}>
 
-      <div className="regTitle">The Journey begins...</div>
+      <Text style={styles.titleText}>The Journey begins...</Text>
 
       <View style={styles.inputView}>
         <TextInput
           style={styles.TextInput}
-          placeholder="Username"
+          placeholder="Email"
           placeholderTextColor="#003f5c"
-          onChangeText={(username) => setEmail(username)}
+          onChangeText={(email) => setEmail(email)}
         />
       </View>
 
@@ -54,23 +56,15 @@ export default function Register() {
         />
       </View>
 
-      <View style={styles.inputView}>
-        <TextInput
-          style={styles.TextInput}
-          placeholder="Email"
-          placeholderTextColor="#003f5c"
-          onChangeText={(email) => setEmail(email)}
-        />
-      </View>
-
-      <TouchableOpacity style={styles.loginBtn}>
+      <TouchableOpacity style={[styles.loginBtn, styles.shadowProp]}>
         <Text style={styles.buttonText}>Embark!</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.nvm}>
-        <Text style={{fontFamily: "times", color: "#E5A4CB"}}>Return to Login</Text>
+      <TouchableOpacity style={[styles.nvm, styles.shadowProp]}>
+        <Text style={{color: "#FFFFFF"}}>Return to Login</Text>
       </TouchableOpacity>
       </View>
+      </ImageBackground>
     </View>
   );
 }
@@ -83,24 +77,23 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 
-  wrap:{
+  wrap: {
     backgroundColor:"#a6dee3",
     alignItems: "center",
     justifyContent: "center",
-    flex: "1",
+    flex: 1,
   },
 
-  regBox:{
-    align: "center",
+  regBox: {
     backgroundColor: "#FBE8B3",
-    borderColor : "#C92D2D",
-    borderWidth : 3,
+    marginTop: 80,
+    borderRadius: 25,
+    width: "90%",
+    height: "75%",
     alignItems: "center",
-    justifyContent: "center",
-    height: "90%",
-    padding: "10",
-    width: "60%",
-    borderRadius: "10%",
+    borderColor : "#C92D2D",
+    borderWidth: 4,
+    overflow: "hidden",
   },
 
   image: {
@@ -110,14 +103,11 @@ const styles = StyleSheet.create({
   },
 
   inputView: {
-    backgroundColor: "#E5A4CB",
-    borderColor : "#45062e",
-    borderWidth : 2,
-    borderRadius: 20,
-    margin: 10,
-    width: "30%",
-    height: 45,
-    marginBottom: 20,
+    backgroundColor: "#A1869E",
+    borderRadius: 30,
+    width: "65%",
+    height: 40,
+    margin: 14,
     alignItems: "center",
   },
 
@@ -127,11 +117,17 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 
+  titleText: {
+      color: "#C92D2D",
+      fontSize: 35,
+      textAlign: 'center',
+      marginBottom: 20,
+
+  },
+
   buttonText: {
-    fontFamily: "Times",
-    fontWeight: "bold",
+    color: "white",
     fontSize: 30,
-    color: "#E5A4CB",
   },
 
   forgot_button: {
@@ -142,22 +138,32 @@ const styles = StyleSheet.create({
   },
 
   loginBtn: {
-    width: "40%",
+    width: "50%",
     borderRadius: 25,
     height: 50,
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 40,
-    backgroundColor: "#45062e",
+    marginTop: 30,
+    marginBottom: 10,
+    backgroundColor: "#797596",
   },
 
   nvm: {
-    width: "30%",
-    borderRadius: 25,
-    height: 40,
+    width: "60%",
+    borderRadius: 20,
+    height: 35,
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 30,
-    backgroundColor: "#45062e",
+    marginTop: 5,
+    marginBottom: 10,
+    backgroundColor: "#797596",
   },
+
+  shadowProp: {
+    shadowColor: '#171717',
+    shadowOffset: {width: -2, height: 4},
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+  },
+
 });

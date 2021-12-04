@@ -12,7 +12,8 @@ import {
 } from "react-native";
 import logo from './assets/QU3ST2.png';
 import bg from './assets/background.png';
-// import textStyling from './src/textStyling.css';
+import Register from "./register";
+import textStyling from './assets/textStyling.css';
 
 export default function Login() {
      const [state, setState] = useState(
@@ -101,9 +102,8 @@ export default function Login() {
     //         });
     // }
 
-  return (
+   return (
     <View style={styles.wrap}>
-
       <ImageBackground source={bg} style={{width: '100%', height: '100%', alignItems: 'center'}}>
 
       <View style={styles.menuWrap}>
@@ -141,7 +141,8 @@ export default function Login() {
       </TouchableOpacity>
 
       <div className="subText">New here, adventurer? Begin your journey </div>
-      <TouchableOpacity> <Text style={[styles.forgot_button, {marginTop: -40}]}>here!</Text> </TouchableOpacity>
+      <TouchableOpacity> <button onClick="Register()"
+      /*style={[styles.forgot_button, {marginTop: -40}]}*/>here!</button> </TouchableOpacity>
 
     </View>
     </ImageBackground>
