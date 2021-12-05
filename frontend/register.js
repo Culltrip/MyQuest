@@ -13,6 +13,7 @@ import {
 import logo from './assets/QU3ST2.png';
 import textStyling from './assets/textStyling.css';
 
+
 export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -59,12 +60,12 @@ export default function Register() {
     window.location.href = '/..';
   }
   return (
-    <View style={styles.wrap}>\
+    <View style={styles.wrap}>
     
-
       <StatusBar style="auto" />
 
       <View style={[styles.regBox, textStyling.bg]}>
+      <Image source={logo} style={{ width: 750, height: 300 }} /> 
 
       <div className="regTitle">The Journey begins...</div>
 
