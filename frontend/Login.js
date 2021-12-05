@@ -1,5 +1,6 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useState, useRef } from "react";
+import { BrowserRouter as Router, Route, Routes, Redirect, Switch, Link } from 'react-router-dom';
+import React, { useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -18,6 +19,46 @@ import textStyling from './assets/textStyling.css';
 import { BrowserRouter as Router, Route, Routes, Redirect, Switch, Link } from 'react-router-dom';
 
 export default function Login() {
+  var obj = {email:"",password:""}
+  const doLogin = async event => 
+  {
+      console.log(obj)
+      //event.preventDefault();
+      // FIXME: Pull Login And Password From Our Fields
+      //var obj = {email:"culltrip@gmail.com",password:"COP4331!p"};
+      var js = JSON.stringify(obj);
+
+      try
+      {    
+          //
+          const response = await fetch('http://quest-task.herokuapp.com/api/login',
+              {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
+
+          var res = JSON.parse(await response.text());
+          //console.log(res);
+          if( res.error )
+          {
+              // TODO: Send User Error Message
+              console.log("Error");
+          }
+          else
+          {
+              console.log("no error");
+              var user = {FirstName:res.FirstName,LastName:res.LastName, Token:res.Token}
+              localStorage.setItem('user_data', JSON.stringify(user));
+              console.log(user);
+              
+              // TODO: Route To Dashboard Page And Send User Info
+              //window.location.href = '/';
+          }
+      }
+      catch(e)
+      {
+          alert(e.toString());
+          return;
+      }    
+  };
+
      const [state, setState] = useState(
         {
             loginEmail: "",
@@ -25,22 +66,28 @@ export default function Login() {
         }
     );
 
-    const [message,setMessage] = useState('');
-    const email = useRef(null);
-    const pwd = useRef(null);
-    const loginRes = useRef(null);
-    const usernameMsg = useRef(null);
-    const userpassMsg = useRef(null);
-
-    const handleChange = (e) =>
-    {
-        setState(
-            {
-                ...state, 
-                [e.target.name]: e.target.value
-            }
-        )
+    const setEmail = (email) => {
+      obj.email = email;
     }
+    const setPassword = (password) => {
+      obj.password = password;
+    }
+    // const [message,setMessage] = useState('');
+    // const email = useRef(null);
+    // const pwd = useRef(null);
+    // loginRes = useRef(null);
+    // const usernameMsg = useRef(null);
+    // const userpassMsg = useRef(null);
+
+   //        const handleChange = (e) =>
+  //      {
+    //     setState(
+    //         {
+    //             ...state, 
+    //             [e.target.name]: e.target.value
+    //         }
+    //     )
+    // }
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -149,22 +196,15 @@ export default function Login() {
         <Text style={styles.forgot_button}>Forgot Password?</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={[styles.loginBtn, styles.shadowProp]}>
-        <button
-          onClick={handleSubmit}
-          type="submit"
-          id="loginButton"
-          className="buttonScheme formBtn"
-          value="Continue"
-          // style={{loginText}}
-          >LOGIN</button>
-        <span id="loginResult" ref={loginRes} style={{display: "none", color: "red"}}>{message}</span>
+      <TouchableOpacity onPress = {() => doLogin()} style={[styles.loginBtn, styles.shadowProp]}>
+        <Text style={styles.loginText}>LOGIN</Text>
       </TouchableOpacity>
 
       <div className="subText">New here, adventurer? Begin your journey </div>
-       <TouchableOpacity style={[styles.registerBtn, styles.shadowProp]}>
+
+      <TouchableOpacity style={[styles.registerBtn, styles.shadowProp]}>
         <Link to='/register' >Register</Link>
-       </TouchableOpacity>
+      </TouchableOpacity>
 
     </View>
     </ImageBackground>
@@ -249,6 +289,16 @@ const styles = StyleSheet.create({
   },
 
   loginBtn: {
+    width: "40%",
+    borderRadius: 25,
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 20,
+    backgroundColor: "#797596",
+  },
+
+  registerBtn: {
     width: "40%",
     borderRadius: 25,
     height: 50,
