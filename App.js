@@ -1,24 +1,20 @@
-import { StatusBar } from "expo-status-bar";
 import React, { useState, useEffect } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TextInput,
-  Button,
-  TouchableOpacity,
-} from "react-native";
-import Login from "./frontend/Login.js";
 import { BrowserRouter as Router, Route, Routes, Redirect, Switch, Link } from 'react-router-dom';
-import { render } from "react-dom";
-import Register from "./frontend/register.js";
+
+import Login from "./frontend/Login.js";
+import Register from "./frontend/Register.js";
+import TaskPage from "./frontend/TaskPage.js";
 
 export default function App() {
 
     return (
-    <Login />
+      <Router>
+        <Routes>
+          <Route path="/" element={<Login/>}/>
+          <Route path="/register" element={<Register/>}/> 
+          <Route path="/taskPage" element={<TaskPage/>} />      
+        </Routes>
+    </Router>
   );
-      
-
+    
 }

@@ -10,8 +10,8 @@ import {
   TouchableOpacity,
   ImageBackground,
 } from "react-native";
-import logo from './assets/QU3ST2.png';
-import bg from './assets/background.png';
+import logo from "./../frontend/assets/QU3ST2.png";
+import bg from './../frontend/assets/background.png';
 
 export default function mobileLogin() {
   const [email, setEmail] = useState("");
