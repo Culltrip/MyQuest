@@ -18,6 +18,14 @@ import textStyling from './assets/textStyling.css';
 
 export default function Login() {
   var obj = {email:"",password:""}
+  const [errorMessage, setErrorMessage] = React.useState("");
+  const handleClick = () => {
+    setErrorMessage("Incorrect Email Password Combination")
+  }
+  const doRegister = async event => 
+  {
+    window.location.href = '/register';
+  }
   const doLogin = async event => 
   {
       console.log(obj)
@@ -38,6 +46,8 @@ export default function Login() {
           {
               // TODO: Send User Error Message
               console.log("Error");
+              handleClick();
+
           }
           else
           {
@@ -47,7 +57,7 @@ export default function Login() {
               console.log(user);
               
               // TODO: Route To Dashboard Page And Send User Info
-              //window.location.href = '/';
+              // window.location.href = '/';
           }
       }
       catch(e)
@@ -70,84 +80,7 @@ export default function Login() {
     const setPassword = (password) => {
       obj.password = password;
     }
-    // const [message,setMessage] = useState('');
-    // const email = useRef(null);
-    // const pwd = useRef(null);
-    // loginRes = useRef(null);
-    // const usernameMsg = useRef(null);
-    // const userpassMsg = useRef(null);
-
-   //        const handleChange = (e) =>
-  //      {
-    //     setState(
-    //         {
-    //             ...state, 
-    //             [e.target.name]: e.target.value
-    //         }
-    //     )
-    // }
-
-    // function handleSubmit(e) {
-    //     e.preventDefault();
-
-    //     if(state.loginName == "") {
-    //         userpassMsg.current.style.display = "none";
-    //         setMessage('Please provide a username');
-    //         usernameMsg.current.style.display = "none";
-    //         undefined.current.focus();
-    //         return;
-    //     }
-    //     else if (state.loginPassword === "") {
-    //         usernameMsg.current.style.display = "none";
-    //         setMessage('Please provide a password');
-    //         userpassMsg.current.style.display = "inline-block";
-    //         pwd.current.focus();
-    //         return;
-    //     }
-    //     else {
-    //         usernameMsg.current.style.display = "none";
-    //         userpassMsg.current.style.display = "none";
-    //         doLogin(e);
-    //     }
-    // }
-
-    // const doLogin = async event => {
-    //     var obj = {login:state.loginName, password:state.loginPassword};
-    //     var js = JSON.stringify(obj);
-
-    //     var config = {
-    //         method: 'post',
-    //         //url:
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         },
-    //         data: js 
-    //     };
-    //    axios(config)
-    //         .then((response) => {
-    //             const res = response.data;
-    //             if (!res) {
-    //                 setMessage('No response from the server...');
-    //                 loginRes.current.style.display = "inline-block";
-    //                 return;
-    //             }
-
-    //             storage.storeToken(res.token);
-
-    //             const firstName = res.first_name;
-    //             const lastName = res.last_name;
-
-    //             const user = {firstName:firstName,lastName:lastName}
-    //             localStorage.setItem('user_data', JSON.stringify(user));
-    //             props.onLogin(true);
-    //         })
-    //         .catch(function (error)  {
-    //             if (error.response) {
-    //                 setMessage(error.response.data?.error);
-    //                 loginRes.current.style.display = "inline-block";
-    //             }
-    //         });
-    // }
+    
 
    return (
     <View style={styles.wrap}>
@@ -186,19 +119,17 @@ export default function Login() {
       <TouchableOpacity onPress = {() => doLogin()} style={[styles.loginBtn, styles.shadowProp]}>
         <Text style={styles.loginText}>LOGIN</Text>
       </TouchableOpacity>
+      {/* <div className="subText">New here, adventurer? Begin your journey </div> --> */}
 
-      <div className="subText">New here, adventurer? Begin your journey </div>
-
-      <TouchableOpacity style={[styles.registerBtn, styles.shadowProp]}>
-        <Link to='/register' >Register</Link>
+      <TouchableOpacity onPress = {() => doRegister()} style={[styles.registerBtn, styles.shadowProp]}>
+        <Text style={styles.loginText}>Register</Text>
       </TouchableOpacity>
-
+      {errorMessage && (<p className="error"> {errorMessage} </p>)}
     </View>
     </ImageBackground>
     </View>
   );
 }
-
 
 const styles = StyleSheet.create({
   container: {

@@ -1,0 +1,150 @@
+.canvasBlock
+{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0.75em;
+}
+
+.cardContainer
+{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: flex-start;
+  align-items: stretch;
+  gap: 20px;
+  padding-bottom: 1em;
+  margin-left: auto;
+  margin-right: auto;
+  padding-bottom: 70px;
+}
+
+.canvasCards
+{
+  border-radius: 30px;
+  max-height: 75vh;
+  max-width: 40%;
+}
+
+.singleContainer > .canvasCards
+{
+  max-height: fit-content;
+}
+
+.singleContainer > .canvasCards >.cardContent
+{
+  overflow: visible;
+}
+
+.cardContent
+{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+}
+
+.cardContent:hover > .delListView:hover, .cardContent:hover > .listCtrl:hover
+{
+  background-color: var(--layeringWhite);
+  border-radius: 15px;
+}
+
+.splitFields
+{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: flex-start;
+  align-items: stretch;
+  gap: 5px;
+  width: auto;
+}
+
+.editBtns
+{
+  display: flex;
+  flex-direction: row;
+  word-wrap: normal;
+  margin-bottom: 5px;
+
+}
+
+.editRow
+{
+  justify-content: center;
+}
+
+.buttonScheme
+{
+  background-color: var(--buttonColor);
+  border-color: transparent;
+  color: white;
+  margin-left: 1%;
+  margin-right: 1%;
+}
+
+.buttonScheme:hover {
+  background-color: #ACBAA1;
+  border-color: transparent;
+}
+
+.schedButton
+{
+  margin-right: 10px;
+}
+
+.priority
+{
+  align-items: center;
+  align-content: center;
+  padding: auto;
+  margin-bottom: 5px;
+}
+
+.priorityTaskView
+{
+  visibility: hidden;
+}
+
+.filterBtns
+{
+  display: inline-block;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  padding-left: auto;
+  padding-right: auto;
+  min-width: 400px;
+}
+
+.listAdjust
+{
+  background-color: var(--semiWhite);
+  border-radius: 20px;
+  margin-bottom: auto;
+  overflow-y: scroll;
+}
+
+.listCtrl
+{
+  background-color: transparent;
+  color: var(--ariaSelected);
+  position: absolute;
+  right: 50px;
+
+}
+
+.listCtrl:hover
+{
+  color: var(--ariaSelected);
+}
+
+.icons
+{
+  font-size: x-large;
+  font-weight: 500;
+}
