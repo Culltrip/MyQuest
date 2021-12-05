@@ -99,6 +99,7 @@ app.post('/api/authTest', auth, async (req, res, next) =>
 app.post('/api/createQuest', auth, async (req, res, next) => 
 {
     let userId = req.ID;
+    let err = ""
 
     const quest = {
         name: req.body.name,
@@ -106,22 +107,341 @@ app.post('/api/createQuest', auth, async (req, res, next) =>
         urgency: req.body.urgency,
         xpTotal: req.body.xpTotal,
         due: req.body.due,
-        tasks: req.body.tasks,
-        user_id: userId,
+        userId: userId,
         isFinished: req.body.isFinished,
     };
-    
-    const db = client.db();
-    const result = await db.collection('Quest').insertOne(quest);
-    id = result.insertedId;
 
-    let idStr = ObjectId(id).toString();
-    idStr = idStr.toString();
+    try
+    {
+        const db = client.db();
+        const result = await db.collection('Quest').insertOne(quest);
+        id = result.insertedId;
 
-    const resultUser = await db.collection('User').updateOne({"_id": new mongoDB.ObjectId(userId)},{$addToSet: {quests: idStr}});
-   
-    const ret = {error:""};
+        let idStr = ObjectId(id).toString();
+        idStr = idStr.toString();
+
+        const resultUser = await db.collection('User').updateOne({"_id": new mongoDB.ObjectId(userId)},{$addToSet: {quests: idStr}});
+    }
+    catch(e)
+    {
+        err = e.toString()
+    }
+    const ret = {error:err};
     res.status(200).json(ret); 
+});
+
+app.post('/api/deleteQuest', auth, async (req, res, next) => {
+    let userId = req.ID;
+    let err = ""
+
+    const questId = req.body.id;
+
+    try
+    {
+        const db = client.db();
+        const lookUp = await db.collection('Quest').findOne({"_id": new mongoDB.ObjectId(questId)})
+        if(lookUp.userId == userId.toString())
+        {
+            const result = await db.collection('Quest').deleteOne({"_id": new mongoDB.ObjectId(questId)});
+
+            const resultUser = await db.collection('User').updateOne({"_id": new mongoDB.ObjectId(userId)},{$pull: {"quests": questId}});
+        }
+        else
+        {
+            err = "UserId Does Not Match"
+        }
+    }
+    catch(e)
+    {
+        err = e.toString()
+    }
+
+    const ret = {error:err};
+    res.status(200).json(ret);
+});
+
+app.post('/api/updateQuest', auth, async (req, res, next) => {
+    let userId = req.ID;
+    let err = ""
+
+    const questId = req.body.id;
+    const name = req.body.name;
+    const type = req.body.type;
+    const urgency = req.body.urgency;
+    const xpTotal = req.body.xpTotal;
+    const due = req.body.due;
+    const isFinished = req.body.isFinished;
+
+
+    try
+    {
+        const db = client.db();
+        const lookUp = await db.collection('Quest').findOne({"_id": new mongoDB.ObjectId(questId)})
+        if(lookUp.userId == userId.toString())
+        {
+            const result = await db.collection('Quest').updateOne({"_id": new mongoDB.ObjectId(questId)},{
+                $set: {'name': name, 'type': type, 'urgency': urgency, 'xpTotal' : xpTotal, 'due' : due, 
+                    'isFinished' : isFinished}
+                });
+        }
+        else
+        {
+            err = "UserId Does Not Match"
+        }
+    } catch(e){
+        err = e.toString();
+    }
+
+    const ret = {error:err};
+    res.status(200).json(ret);
+
+});
+
+app.post('/api/listQuests', auth, async (req, res, next) => {
+
+    let userId = req.ID;
+    let ret = "";
+
+    try
+    {
+        const db = client.db();
+        const result = await db.collection('User').findOne({'_id': new mongoDB.ObjectId(userId)});
+        ret = {error: "", quests: result.quests};
+    }
+    catch(e)
+    {
+        ret = {error: e};
+    }
+
+    res.status(200).json(ret);
+
+});
+
+app.post('/api/viewQuest', auth, async (req, res, next) => {
+
+    let userId = req.ID;
+    let ret = "";
+    let id = req.body.id;
+
+    try
+    {
+        const db = client.db();
+        const result = await db.collection('Quest').findOne({"_id": new mongoDB.ObjectId(id)});
+        if(result.userId == userId.toString())
+        {
+            ret = {error: "", quest: result};
+        }
+        else
+        {
+            ret = {error: "UserId Does Not Match"};
+        }
+    }
+    catch(e)
+    {
+        ret = {error: e};
+    }
+
+    res.status(200).json(ret);
+
+});
+
+
+app.post('/api/createTask', auth, async (req, res, next) => 
+{
+    let userId = req.ID;
+    let err = ""
+
+    let questId = req.body.questId;
+
+    const quest = {
+        name: req.body.name,
+        type: req.body.type,
+        urgency: req.body.urgency,
+        xpTotal: req.body.xpTotal,
+        due: req.body.due,
+        userId: userId,
+        questId: req.body.questId,
+        isFinished: req.body.isFinished,
+    };
+
+    try
+    {
+        const db = client.db();
+        const result = await db.collection('Task').insertOne(quest);
+        id = result.insertedId;
+
+        let idStr = ObjectId(id).toString();
+        idStr = idStr.toString();
+
+        const resultUser = await db.collection('Quest').updateOne({"_id": new mongoDB.ObjectId(questId)},{$addToSet: {tasks: idStr}});
+    }
+    catch(e)
+    {
+        err = e.toString()
+    }
+    const ret = {error:err};
+    res.status(200).json(ret); 
+});
+
+app.post('/api/deleteTask', auth, async (req, res, next) => {
+    let userId = req.ID;
+    let err = ""
+
+    const taskId = req.body.id;
+
+    try
+    {
+        const db = client.db();
+        const lookUp = await db.collection('Task').findOne({"_id": new mongoDB.ObjectId(taskId)})
+        if(lookUp.userId == userId.toString())
+        {
+            const result = await db.collection('Task').deleteOne({"_id": new mongoDB.ObjectId(taskId)});
+
+            const resultUser = await db.collection('Quest').updateOne({"_id": new mongoDB.ObjectId(lookUp.questId)},{$pull: {"tasks": taskId}});
+        }
+        else
+        {
+            err = "UserId Does Not Match"
+        }        
+    }
+    catch(e)
+    {
+        err = e.toString()
+    }
+
+    const ret = {error:err};
+    res.status(200).json(ret);
+});
+
+app.post('/api/updateTask', auth, async (req, res, next) => {
+    let userId = req.ID;
+    let err = ""
+
+
+
+    const taskId = req.body.id;
+    const name = req.body.name;
+    const type = req.body.type;
+    const urgency = req.body.urgency;
+    const xpTotal = req.body.xpTotal;
+    const due = req.body.due;
+    const isFinished = req.body.isFinished;
+
+
+    try
+    {
+        const db = client.db();
+        const lookUp = await db.collection('Task').findOne({"_id": new mongoDB.ObjectId(taskId)})
+        if(lookUp.userId == userId.toString())
+        {
+            const result = await db.collection('Task').updateOne({"_id": new mongoDB.ObjectId(taskId)},{
+                $set: {'name': name, 'type': type, 'urgency': urgency, 'xpTotal' : xpTotal, 'due' : due, 
+                    'isFinished' : isFinished}
+                });
+        }
+        else
+        {
+            err = "UserId Does Not Match"
+        }
+    } catch(e){
+        err = e.toString();
+    }
+
+    const ret = {error:err};
+    res.status(200).json(ret);
+
+});
+
+app.post('/api/listTasks', auth, async (req, res, next) => {
+
+    let userId = req.ID;
+    let ret = "";
+
+    const questId = req.body.questId;
+
+    try
+    {
+        const db = client.db();
+        const result = await db.collection('Quest').findOne({'_id': new mongoDB.ObjectId(questId)});
+        ret = {error: "", tasks: result.tasks};
+    }
+    catch(e)
+    {
+        ret = {error: e};
+    }
+
+    res.status(200).json(ret);
+
+});
+
+app.post('/api/viewTask', auth, async (req, res, next) => {
+
+    let userId = req.ID;
+    let ret = "";
+    let id = req.body.id;
+
+    try
+    {
+        const db = client.db();
+        const result = await db.collection('Task').findOne({"_id": new mongoDB.ObjectId(id)});
+        if(result.userId == userId.toString())
+        {
+            ret = {error: "", task: result};
+        }
+        else
+        {
+            ret = {error: "UserId Does Not Match"};
+        }
+    }
+    catch(e)
+    {
+        ret = {error: e};
+    }
+
+    res.status(200).json(ret);
+
+});
+
+app.post('/api/viewUser', auth, async (req, res, next) => {
+
+    let userId = req.ID;
+    let ret = "";
+
+    try
+    {
+        const db = client.db();
+        const result = await db.collection('User').findOne({"_id": new mongoDB.ObjectId(userId)});
+        
+        ret = {error: "", task: result};
+    }
+    catch(e)
+    {
+        ret = {error: e};
+    }
+
+    res.status(200).json(ret);
+});
+
+app.post('/api/updateUser', auth, async (req, res, next) => {
+    let userId = req.ID;
+    let err = ""
+
+    const first = req.body.first;
+    const last = req.body.last;
+
+    try
+    {
+        const db = client.db();
+        const result = await db.collection('User').updateOne({"_id": new mongoDB.ObjectId(userId)},{
+                $set: {'FirstName': first, 'LastName': last}
+            });
+    } catch(e){
+        err = e.toString();
+    }
+
+    const ret = {error:err};
+    res.status(200).json(ret);
+
 });
 
 app.post('/api/confirm', async (req, res, next) => 
@@ -215,12 +535,9 @@ app.post('/api/login', async (req, res, next) =>
         },
         onSuccess: data => 
         {   
-            const ret = {FirstName:fn, LastName:ln, Token:data.idToken.jwtToken};
+            const user = {FirstName:fn, LastName:ln, Token:data.idToken.jwtToken};
+            ret = {error:"", user: user}
 
-            if(results.length == 0)
-            {
-                ret = {error:'DatabaseError'};
-            }
             res.status(200).json(ret);
         }
     });
