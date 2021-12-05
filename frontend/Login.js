@@ -17,6 +17,46 @@ import Register from "./register";
 import textStyling from './assets/textStyling.css';
 
 export default function Login() {
+  var obj = {email:"",password:""}
+  const doLogin = async event => 
+  {
+      console.log(obj)
+      //event.preventDefault();
+      // FIXME: Pull Login And Password From Our Fields
+      //var obj = {email:"culltrip@gmail.com",password:"COP4331!p"};
+      var js = JSON.stringify(obj);
+
+      try
+      {    
+          //
+          const response = await fetch('http://quest-task.herokuapp.com/api/login',
+              {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
+
+          var res = JSON.parse(await response.text());
+          //console.log(res);
+          if( res.error )
+          {
+              // TODO: Send User Error Message
+              console.log("Error");
+          }
+          else
+          {
+              console.log("no error");
+              var user = {FirstName:res.FirstName,LastName:res.LastName, Token:res.Token}
+              localStorage.setItem('user_data', JSON.stringify(user));
+              console.log(user);
+              
+              // TODO: Route To Dashboard Page And Send User Info
+              //window.location.href = '/';
+          }
+      }
+      catch(e)
+      {
+          alert(e.toString());
+          return;
+      }    
+  };
+
      const [state, setState] = useState(
         {
             loginName: "",
@@ -24,6 +64,12 @@ export default function Login() {
         }
     );
 
+    const setEmail = (email) => {
+      obj.email = email;
+    }
+    const setPassword = (password) => {
+      obj.password = password;
+    }
     // const [message,setMessage] = useState('');
     // const email = useRef(null);
     // const pwd = useRef(null);
@@ -31,8 +77,8 @@ export default function Login() {
     // const usernameMsg = useRef(null);
     // const userpassMsg = useRef(null);
 
-    // const handleChange = (e) =>
-    // {
+   //        const handleChange = (e) =>
+  //      {
     //     setState(
     //         {
     //             ...state, 
@@ -137,7 +183,7 @@ export default function Login() {
         <Text style={styles.forgot_button}>Forgot Password?</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={[styles.loginBtn, styles.shadowProp]}>
+      <TouchableOpacity onPress = {() => doLogin()} style={[styles.loginBtn, styles.shadowProp]}>
         <Text style={styles.loginText}>LOGIN</Text>
       </TouchableOpacity>
 

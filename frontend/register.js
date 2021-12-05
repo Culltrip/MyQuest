@@ -16,9 +16,48 @@ import textStyling from './assets/textStyling.css';
 export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  var obj = {email:"", password:"", first:"", last:""}
+  const doRegister = async event => 
+  {
+      console.log(obj)
+      //event.preventDefault();
+      // FIXME: Pull Login And Password From Our Fields
+      //var obj = {email:"culltrip@gmail.com",password:"COP4331!p"};
+      var js = JSON.stringify(obj);
 
+      try
+      {    
+          //
+          const response = await fetch('http://quest-task.herokuapp.com/api/register',
+              {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
+
+          var res = JSON.parse(await response.text());
+          //console.log(res);
+          if( res.error )
+          {
+              // TODO: Send User Error Message
+              console.log("Error");
+          }
+          else
+          {
+              console.log("no error");
+              var user = {FirstName:res.FirstName,LastName:res.LastName, Token:res.Token}
+              localStorage.setItem('user_data', JSON.stringify(user));
+              console.log(user);
+              
+              // TODO: Route To Dashboard Page And Send User Info
+              // window.location.href = '/';
+          }
+      }
+      catch(e)
+      {
+          alert(e.toString());
+          return;
+      }    
+  };
   return (
-    <View style={styles.wrap}>
+    <View style={styles.wrap}>\
+    
 
       <StatusBar style="auto" />
 
@@ -31,7 +70,7 @@ export default function Register() {
           style={styles.TextInput}
           placeholder="Username"
           placeholderTextColor="#003f5c"
-          onChangeText={(username) => setEmail(username)}
+          //onChangeText={(username) => setEmail(username)}
         />
       </View>
 
@@ -41,7 +80,7 @@ export default function Register() {
           placeholder="Password"
           placeholderTextColor="#003f5c"
           secureTextEntry={true}
-          onChangeText={(password) => setPassword(password)}
+          //onChangeText={(password) => setPassword(password)}
         />
       </View>
 
@@ -51,7 +90,7 @@ export default function Register() {
           placeholder="Confirm Password"
           placeholderTextColor="#003f5c"
           secureTextEntry={true}
-          onChangeText={(password) => setPassword(password)}
+          //onChangeText={(password) => setPassword(password)}
         />
       </View>
 
@@ -60,7 +99,7 @@ export default function Register() {
           style={styles.TextInput}
           placeholder="Email"
           placeholderTextColor="#003f5c"
-          onChangeText={(email) => setEmail(email)}
+          //onChangeText={(email) => setEmail(email)}
         />
       </View>
 
