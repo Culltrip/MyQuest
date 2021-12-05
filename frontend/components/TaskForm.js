@@ -3,20 +3,20 @@ import { Container } from 'react-bootstrap';
 import { useParams, Redirect } from "react-router-dom";
 import axios from 'axios';
 
-import ToDoList from './TaskPage.js';
+import ToDoList from './TaskList.js';
 
-import bp from "../components/Path.js";
+import bp from "./Path.js";
 
 function readLists(id) {
     return new Promise((resolve, reject) => {
 
         const obj = {
-            token: localStorage.getItem("token_data")
+            token: localStorage.getItem("token")
         };
 
         const config = {
             method: "post",
-            url: bp.buildPath(`api/lists/read/${id}`),
+            url: bp.buildPath(`listQuest/${id}`),
             headers: {
                 "Content-Type": "application/json"
             },
@@ -76,7 +76,7 @@ function ListPage() {
             setList(list);
         })
         .catch(_ => {
-            return setRedirect(<Redirect to="/canvas"/>);
+            // return setRedirect(<Redirect to="/canvas"/>);
         });
     }, [list_id]);
     // readLists().then(setLists);
@@ -96,12 +96,12 @@ function ListPage() {
     function editList(id, title, body) {
         const config = {
             method: "post",
-            url: bp.buildPath("api/lists/update"),
+            url: bp.buildPath(`/updateQuest/${id}`),
             headers: {
                 "Content-Type": "application/json"
             },
             data: {
-                token: localStorage.getItem("token_data"),
+                token: localStorage.getItem("token"),
                 id: id,
                 title: title,
                 list: body
@@ -135,12 +135,12 @@ function ListPage() {
     function deleteList() {
         const config = {
             method: "post",
-            url: bp.buildPath("api/lists/delete"),
+            url: bp.buildPath(`/deleteQuest`),
             headers: {
                 "Content-Type": "application/json"
             },
             data: {
-                token: localStorage.getItem("token_data"),
+                token: localStorage.getItem("token"),
                 id: list_id
             }
         };
