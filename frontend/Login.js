@@ -18,6 +18,14 @@ import textStyling from './assets/textStyling.css';
 
 export default function Login() {
   var obj = {email:"",password:""}
+  const [errorMessage, setErrorMessage] = React.useState("");
+  const handleClick = () => {
+    setErrorMessage("Incorrect Email Password Combination")
+  }
+  const doRegister = async event => 
+  {
+    window.location.href = '/register';
+  }
   const doLogin = async event => 
   {
       console.log(obj)
@@ -38,6 +46,8 @@ export default function Login() {
           {
               // TODO: Send User Error Message
               console.log("Error");
+              handleClick();
+
           }
           else
           {
@@ -47,7 +57,7 @@ export default function Login() {
               console.log(user);
               
               // TODO: Route To Dashboard Page And Send User Info
-              //window.location.href = '/';
+              // window.location.href = '/';
           }
       }
       catch(e)
@@ -186,13 +196,12 @@ export default function Login() {
       <TouchableOpacity onPress = {() => doLogin()} style={[styles.loginBtn, styles.shadowProp]}>
         <Text style={styles.loginText}>LOGIN</Text>
       </TouchableOpacity>
+      {/* <div className="subText">New here, adventurer? Begin your journey </div> --> */}
 
-      <div className="subText">New here, adventurer? Begin your journey </div>
-
-      <TouchableOpacity style={[styles.registerBtn, styles.shadowProp]}>
-        <Link to='/register' >Register</Link>
+      <TouchableOpacity onPress = {() => doRegister()} style={[styles.registerBtn, styles.shadowProp]}>
+        <Text style={styles.loginText}>Register</Text>
       </TouchableOpacity>
-
+      {errorMessage && (<p className="error"> {errorMessage} </p>)}
     </View>
     </ImageBackground>
     </View>
