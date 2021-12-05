@@ -1,5 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
+import { BrowserRouter as Router, Route, Routes, Redirect, Switch, Link } from 'react-router-dom';
 import {
   StyleSheet,
   Text,
@@ -68,7 +69,7 @@ export default function Register() {
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.nvm}>
-        <Text style={{fontFamily: "times", color: "#E5A4CB"}}>Return to Login</Text>
+        <Link to = '/'>Return to Login</Link>
       </TouchableOpacity>
       </View>
     </View>

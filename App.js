@@ -15,10 +15,15 @@ import { render } from "react-dom";
 import Register from "./frontend/register.js";
 
 export default function App() {
-
-    return (
-    <Login />
+  return (
+  
+          <Router>
+            <Routes>
+              <Route path="/" element={<Login/>}/>
+              <Route path="/register" element={<Register/>}/>
+            </Routes>
+          </Router>
   );
-      
+
 
 }

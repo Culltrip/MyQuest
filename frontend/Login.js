@@ -1,4 +1,5 @@
 import { StatusBar } from "expo-status-bar";
+import { BrowserRouter as Router, Route, Routes, Redirect, Switch, Link } from 'react-router-dom';
 import React, { useState } from "react";
 import {
   StyleSheet,
@@ -141,8 +142,10 @@ export default function Login() {
       </TouchableOpacity>
 
       <div className="subText">New here, adventurer? Begin your journey </div>
-      <TouchableOpacity> <button onClick="Register()"
-      /*style={[styles.forgot_button, {marginTop: -40}]}*/>here!</button> </TouchableOpacity>
+
+      <TouchableOpacity style={[styles.registerBtn, styles.shadowProp]}>
+        <Link to='/register' >Register</Link>
+      </TouchableOpacity>
 
     </View>
     </ImageBackground>
@@ -227,6 +230,16 @@ const styles = StyleSheet.create({
   },
 
   loginBtn: {
+    width: "40%",
+    borderRadius: 25,
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 20,
+    backgroundColor: "#797596",
+  },
+
+  registerBtn: {
     width: "40%",
     borderRadius: 25,
     height: 50,
