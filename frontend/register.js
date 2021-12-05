@@ -12,7 +12,6 @@ import {
 } from "react-native";
 import logo from './assets/QU3ST2.png';
 import textStyling from './assets/textStyling.css';
-import { BrowserRouter as Router, Route, Routes, Redirect, Switch, Link } from 'react-router-dom';
 
 
 export default function Register() {
@@ -58,12 +57,12 @@ export default function Register() {
       }    
   };
   return (
-    <View style={styles.wrap}>\
+    <View style={styles.wrap}>
     
-
       <StatusBar style="auto" />
 
       <View style={[styles.regBox, textStyling.bg]}>
+      <Image source={logo} style={{ width: 750, height: 300 }} /> 
 
       <div className="regTitle">The Journey begins...</div>
 

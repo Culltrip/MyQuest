@@ -11,12 +11,10 @@ import {
   TouchableOpacity,
   ImageBackground,
 } from "react-native";
-import Form from 'react-bootstrap/Form';
 import logo from './assets/QU3ST2.png';
 import bg from './assets/background.png';
-import Register from "./Register";
+import Register from "./register";
 import textStyling from './assets/textStyling.css';
-import { BrowserRouter as Router, Route, Routes, Redirect, Switch, Link } from 'react-router-dom';
 
 export default function Login() {
   var obj = {email:"",password:""}
@@ -61,7 +59,7 @@ export default function Login() {
 
      const [state, setState] = useState(
         {
-            loginEmail: "",
+            loginName: "",
             loginPassword: ""
         }
     );
@@ -89,67 +87,67 @@ export default function Login() {
     //     )
     // }
 
-    function handleSubmit(e) {
-        e.preventDefault();
+    // function handleSubmit(e) {
+    //     e.preventDefault();
 
-        if(state.loginEmail === "") {
-            userpassMsg.current.style.display = "none";
-            setMessage('Please provide a username');
-            usernameMsg.current.style.display = "none";
-            undefined.current.focus();
-            return;
-        }
-        else if (state.loginPassword === "") {
-            usernameMsg.current.style.display = "none";
-            setMessage('Please provide a password');
-            userpassMsg.current.style.display = "inline-block";
-            pwd.current.focus();
-            return;
-        }
-        else {
-            usernameMsg.current.style.display = "none";
-            userpassMsg.current.style.display = "none";
-            doLogin(e);
-        }
-    }
+    //     if(state.loginName == "") {
+    //         userpassMsg.current.style.display = "none";
+    //         setMessage('Please provide a username');
+    //         usernameMsg.current.style.display = "none";
+    //         undefined.current.focus();
+    //         return;
+    //     }
+    //     else if (state.loginPassword === "") {
+    //         usernameMsg.current.style.display = "none";
+    //         setMessage('Please provide a password');
+    //         userpassMsg.current.style.display = "inline-block";
+    //         pwd.current.focus();
+    //         return;
+    //     }
+    //     else {
+    //         usernameMsg.current.style.display = "none";
+    //         userpassMsg.current.style.display = "none";
+    //         doLogin(e);
+    //     }
+    // }
 
-    const doLogin = async event => {
-        var obj = {login:state.loginEmail, password:state.loginPassword};
-        var js = JSON.stringify(obj);
+    // const doLogin = async event => {
+    //     var obj = {login:state.loginName, password:state.loginPassword};
+    //     var js = JSON.stringify(obj);
 
-        var config = {
-            method: 'post',
-            //url:
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            data: js 
-        };
-       axios(config)
-            .then((response) => {
-                const res = response.data;
-                if (!res) {
-                    setMessage('No response from the server...');
-                    loginRes.current.style.display = "inline-block";
-                    return;
-                }
+    //     var config = {
+    //         method: 'post',
+    //         //url:
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         },
+    //         data: js 
+    //     };
+    //    axios(config)
+    //         .then((response) => {
+    //             const res = response.data;
+    //             if (!res) {
+    //                 setMessage('No response from the server...');
+    //                 loginRes.current.style.display = "inline-block";
+    //                 return;
+    //             }
 
-                storage.storeToken(res.token);
+    //             storage.storeToken(res.token);
 
-                const firstName = res.first_name;
-                const lastName = res.last_name;
+    //             const firstName = res.first_name;
+    //             const lastName = res.last_name;
 
-                const user = {firstName:firstName,lastName:lastName}
-                localStorage.setItem('user_data', JSON.stringify(user));
-                props.onLogin(true);
-            })
-            .catch(function (error)  {
-                if (error.response) {
-                    setMessage(error.response.data?.error);
-                    loginRes.current.style.display = "inline-block";
-                }
-            });
-    }
+    //             const user = {firstName:firstName,lastName:lastName}
+    //             localStorage.setItem('user_data', JSON.stringify(user));
+    //             props.onLogin(true);
+    //         })
+    //         .catch(function (error)  {
+    //             if (error.response) {
+    //                 setMessage(error.response.data?.error);
+    //                 loginRes.current.style.display = "inline-block";
+    //             }
+    //         });
+    // }
 
    return (
     <View style={styles.wrap}>
@@ -157,39 +155,28 @@ export default function Login() {
 
       <View style={styles.menuWrap}>
       <StatusBar style="auto" />
+
       <Image source={logo} style={{ width: 750, height: 300 }} /> 
+
       <div className="loginTitle">Where your everyday tasks make you the hero.</div>
-    
+
       <View style={[styles.inputView, styles.shadowProp]}>
         <TextInput
-          type="text"
-          id="loginEmail"
-          name="email"
-          className="inFields"
-          value={state.loginEmail}
-          ref={email}
-          onChange={handleChange}
           style={styles.TextInput}
           placeholder="Email"
           placeholderTextColor="#003f5c"
+          onChangeText={(email) => setEmail(email)}
         />
-         <span ref={userpassMsg} style={{display: "none", color: "red"}}>{message}</span>
       </View>
-    
+
       <View style={[styles.inputView, styles.shadowProp]}>
         <TextInput
-          type="password"
-          id="loginPassword"
-          name="loginPassword"
-          value={state.loginPassword}
-          ref={pwd}
-          onChange={handleChange}
           style={styles.TextInput}
           placeholder="Password"
           placeholderTextColor="#003f5c"
           secureTextEntry={true}
+          onChangeText={(password) => setPassword(password)}
         />
-        <span ref={userpassMsg} style={{display: "none", color: "red"}}>{message}</span>
       </View>
 
       <TouchableOpacity>
