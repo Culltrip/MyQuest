@@ -45,8 +45,7 @@ export default function Register() {
               localStorage.setItem('user_data', JSON.stringify(user));
               console.log(user);
               
-              // TODO: Route To Dashboard Page And Send User Info
-              // window.location.href = '/';
+              window.location.href = '/';
           }
       }
       catch(e)
@@ -55,6 +54,10 @@ export default function Register() {
           return;
       }    
   };
+  const goHome = async event => 
+  {
+    window.location.href = '/..';
+  }
   return (
     <View style={styles.wrap}>\
     
@@ -107,8 +110,8 @@ export default function Register() {
         <Text style={styles.buttonText}>Embark!</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.nvm}>
-        <Link to = '/'>Return to Login</Link>
+      <TouchableOpacity onPress = {() => goHome()} style={styles.nvm}>
+        <Text style={styles.buttonText}>Return to Login</Text>
       </TouchableOpacity>
       </View>
     </View>

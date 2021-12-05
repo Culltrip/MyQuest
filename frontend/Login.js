@@ -42,23 +42,30 @@ export default function Login() {
 
           var res = JSON.parse(await response.text());
           //console.log(res);
-          if( res.error )
+          if (email == "" || pasword == "")
           {
-              // TODO: Send User Error Message
-              console.log("Error");
-              handleClick();
+            handleClick("Empty Email or Password Field");
+          }
+          else 
+          {
+            if( res.error )
+            {
+                // TODO: Send User Error Message
+                console.log("Error");
+                handleClick("Incorrect Email and Password Combination");
 
-          }
-          else
-          {
-              console.log("no error");
-              var user = {FirstName:res.FirstName,LastName:res.LastName, Token:res.Token}
-              localStorage.setItem('user_data', JSON.stringify(user));
-              console.log(user);
-              
-              // TODO: Route To Dashboard Page And Send User Info
-              // window.location.href = '/';
-          }
+            }
+            else
+            {
+                console.log("no error");
+                var user = {FirstName:res.FirstName,LastName:res.LastName, Token:res.Token}
+                localStorage.setItem('user_data', JSON.stringify(user));
+                console.log(user);
+                window.location.href = '';
+                // TODO: Route To Dashboard Page And Send User Info
+                // window.location.href = '/';
+            }
+          } 
       }
       catch(e)
       {
