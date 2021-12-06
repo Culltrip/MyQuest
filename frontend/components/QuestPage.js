@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Container } from 'react-bootstrap';
 import { useParams, Redirect } from "react-router-dom";
 import axios from 'axios';
+import bg from "./../assets/background.png"
 
-import ToDoList from './TaskList.js';
+import TaskList from './TaskList.js';
 
 import bp from "./Path.js";
 
-function readLists(id) {
+function QuestList(id) {
     return new Promise((resolve, reject) => {
 
         const obj = {
@@ -69,7 +70,7 @@ function ListPage() {
     const [redirect, setRedirect] = useState(<></>);
 
     useEffect(() => {
-        readLists(list_id)
+        QuestList(list_id)
         .then(list => {
             if (!list)
                 setRedirect(<Redirect to="/canvas"/>);
@@ -82,7 +83,7 @@ function ListPage() {
     // readLists().then(setLists);
 
     const listView = (
-        <ToDoList
+        <TaskList
             name={list.title}
             id={list.id}
             key={list.key}
@@ -167,7 +168,7 @@ function ListPage() {
     }
 
     return (
-        <div id="canvas" className="app">
+        <div id="canvas" className="app"  style={{ backgroundImage: `url(${bg})`, height:"100%", width:"100%" }}>
             <div className="canvasBlock">
             </div>
             <Container className="cardContainer singleContainer" >

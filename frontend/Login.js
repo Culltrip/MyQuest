@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { BrowserRouter as Router, Route, Routes, Redirect, Switch, Link } from 'react-router-dom';
+import { Router, Route, Routes, Redirect, Switch, Link, useHistory } from 'react-router-dom';
 import React, { useState } from "react";
 import {
   StyleSheet,
@@ -18,7 +18,9 @@ import textStyling from './assets/textStyling.css';
 
 export default function Login() {
   var obj = {email:"",password:""}
+  const [redirect, setRedirect] = useState(<></>);
   const [errorMessage, setErrorMessage] = React.useState("");
+  
   const handleClick = () => {
     setErrorMessage("Incorrect Email Password Combination")
   }
@@ -57,7 +59,10 @@ export default function Login() {
               console.log(user);
               
               // TODO: Route To Dashboard Page And Send User Info
-              // window.location.href = '/';
+              return (
+                window.location.href = '/questPage'
+                // setRedirect(<Redirect to="/questapage" />)
+            )
           }
       }
       catch(e)

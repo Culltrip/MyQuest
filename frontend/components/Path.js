@@ -1,13 +1,27 @@
 const hostname = 'quest-task.herokuapp.com';
+const url = hostname + '/api';
 
-function buildPath(route) {
-    if (process.env.NODE_ENV === "production") {
-        return `https://${hostname}/${route}`;
-    }   
+let path = {}
 
-    return `http://localhost:19006/${route}`;
-}
+path.deleteQuest = url + '/deleteQuest';
+path.createQuest = url + '/createQuest';
+path.updateQuest = url + '/updateQuest';
+path.listQuest = url + '/listQuest';
+path.viewQuest = url + '/viewQuest';
+path.createTask = url + '/createTask';
+path.deleteTask = url + '/deleteTask';
+path.updateTask = url + '/updateTask';
+path.listTask = url + '/listTask';
+path.viewTask = url + '/viewTask';
+path.viewUser = url + '/viewUser';
+path.updateUser = url + '/updateUser';
+path.confirm = url + '/confirm';
+path.resendCode = url + '/resendCode';
+path.login = url + '/login';
+path.register = url + '/register';
 
-export default {
-    buildPath: buildPath
-}
+// finidsh the rest of the api calls
+
+export default path
+
+

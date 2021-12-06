@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Button, Card, ListGroup } from 'react-bootstrap';
-import {ImageBackground, View, StyleSheet} from 'react-native';
+import {ImageBackground, View, StyleSheet, TextInput} from 'react-native';
 import axios from 'axios';
 import bg from './../assets/background.png'
 import Task from './Task';
@@ -8,7 +8,9 @@ import FilterButtons from './FilterButtons';
 import NewTaskForm from './NewTaskForm';
 import ButtonIcons from './ButtonIcons';
 import DeleteConfirmation from './DeleteConfirmation';
-import styles from './../assets/style'
+import path from './Path.js'
+// import styles from './../assets/style'
+import { StatusBar } from "expo-status-bar";
 
 import bp from "./Path.js";
 
@@ -64,7 +66,7 @@ function ToDoList(props) {
         
         const config = {
             method: 'post',
-            url: bp.buildPath(`api/lists/${props.id}/update/${id}`),
+            url: path.updateTask,
             headers:
             {
                 'Content-Type': 'application/json'
@@ -119,7 +121,7 @@ function ToDoList(props) {
     function addTask(name) {
         const config = {
             method: 'post',
-            url: bp.buildPath(`api/lists/${props.id}/create`),
+            url: path.addTask,
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -157,7 +159,7 @@ function ToDoList(props) {
 
         const config = {
             method: 'post',
-            url: bp.buildPath(`api/lists/${props.id}/update/${id}`),
+            url: bp.buildPath(`/${props.id}/update/${id}`),
             headers:
             {
                 'Content-Type': 'application/json'
@@ -242,42 +244,40 @@ function ToDoList(props) {
     }
 
     const editingTemplate = (
-    <ImageBackground source={bg} style={{width: '100%', height: '100%', alignItems: 'center'}}>
-        <Card.Body className="cardContent">
-            <form className="form editTask" onSubmit={handleSubmit}>
-                <div className="editFields splitFields">
-                    <input
-                        id={props.id}
-                        name="name"
-                        className="todo-text inFields"
-                        type="text"
-                        value={name}
-                        onChange={handleChange}
-                        ref={editFieldRef}
-                    />
-                    <div className="editBtns editRow">
-                        <Button
-                            type="button"
-                            className="buttonScheme schedButton"
-                            onClick={() => setEditing(false)}
-                        >
-                            Cancel
-                        </Button>
-                        <Button type="submit" className="buttonScheme schedButton">
-                            Save
-                        </Button>
-                    </div>
+    <Card.Body className="cardContent">
+        <form className="form editTask" onSubmit={handleSubmit}>
+            <div className="editFields splitFields">
+                <input
+                    id={props.id}
+                    name="name"
+                    className="todo-text inFields"
+                    type="text"
+                    value={name}
+                    onChange={handleChange}
+                    ref={editFieldRef}
+                />
+                <div className="editBtns editRow">
+                    <Button
+                        type="button"
+                        className="buttonScheme schedButton"
+                        onClick={() => setEditing(false)}
+                    >
+                        Cancel
+                    </Button>
+                    <Button type="submit" className="buttonScheme schedButton">
+                        Save
+                    </Button>
                 </div>
-            </form>
-            <div className="filterBtns priority">
-                {filterList}
             </div>
-            <ListGroup variant="flush" className="listAdjust">
-                {taskList}
-            </ListGroup>
-            <NewTaskForm addTask={addTask} />
-        </Card.Body>
-        </ImageBackground>
+        </form>
+        <div className="filterBtns priority">
+            {filterList}
+        </div>
+        <ListGroup variant="flush" className="listAdjust">
+            {taskList}
+        </ListGroup>
+        <NewTaskForm addTask={addTask} />
+    </Card.Body>
     );
 
     const viewTemplate = (
@@ -324,15 +324,108 @@ function ToDoList(props) {
     }, [wasEditing, isEditing]);
 
     return (
-        <ImageBackground source={bg} style={{width: '100%', height: '100%', alignItems: 'center'}}>
-            <Card className="app canvasCards">
-                {delCon ? <DeleteConfirmation id={props.id} handleDelete={handleDelete}/> : (isEditing ? editingTemplate : viewTemplate)}
-            </Card>
-        </ImageBackground>
+            <View>
+                {delCon ? <DeleteConfirmation id={props.id} handleDelete={handleDelete}/> : (isEditing ? viewTemplate : editingTemplate)}
+            </View>
     );
 }
 
 export default ToDoList;
 
 
-      
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  menuWrap:{
+    backgroundColor: "#FBE8B3",
+    marginTop: 30,
+    borderRadius: 25,
+    width: 800,
+    height: "90%",
+    alignItems: "center",
+    borderColor : "#C92D2D",
+    borderWidth: 4,
+    overflow: "hidden",
+  },
+
+  wrap:{
+    align: "center",
+    backgroundColor:"#a6dee3",
+    alignItems: "center",
+    justifyContent: "center",
+    flex: "1",
+  },
+
+  image: {
+    marginTop: -10,
+    marginBottom: 20,
+    width: 300,
+    height: 100,
+  },
+
+  inputView: {
+    backgroundColor: "#A1869E",
+    borderRadius: 30,
+    width: "30%",
+    height: 40,
+    marginBottom: 14,
+    alignItems: "center",
+  },
+
+  loginText:{
+    fontFamily: "Garamond, serif",
+    fontWeight: "bold",
+    color: "white",
+  },
+
+  TextInput: {
+    height: 50,
+    flex: 1,
+    textAlign: 'center',
+  },
+
+  forgot_button: {
+    height: 30,
+    paddingTop: 10,
+    marginBottom: 10,
+    alignItems: 'center',
+    fontFamily: "Garamond, serif",
+    fontSize: 14,
+    fontWeight: "bolder",
+    marginTop: -10,
+    marginBottom: 10,
+    padding: 20,
+  },
+
+  shadowProp: {
+    shadowColor: '#171717',
+    shadowOffset: {width: -2, height: 4},
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+  },
+
+  loginBtn: {
+    width: "40%",
+    borderRadius: 25,
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 20,
+    backgroundColor: "#797596",
+  },
+
+  registerBtn: {
+    width: "40%",
+    borderRadius: 25,
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 20,
+    backgroundColor: "#797596",
+  },
+});      

@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import ToDoList from '../components/TaskList';
 import LoggedInName from './LoggedInuser';
-import NewListForm from '../components/NewTaskForm';
+import NewListForm from '../components/NewListForm';
 
 import bp from "../components/Path.js";
 
@@ -14,12 +14,12 @@ function readLists(props) {
 
         const obj = {
             search: props,
-            token: localStorage.getItem("token_data")
+            token: localStorage.getItem("backend/server")  // fox
         };
 
         const config = {
             method: "post",
-            url: bp.buildPath("api/lists/read"),
+            url: bp.buildPath("backend/server"),  //fix 
             headers: {
                 "Content-Type": "application/json"
             },
@@ -70,7 +70,7 @@ function CanvasPage() {
     // userId: ####
     // title: list name
     // body: array of tasks
-    const user = JSON.parse(localStorage.getItem('user_data'));
+    const user = JSON.parse(localStorage.getItem('user_data'));  // is it user data?
     const firstName = user.firstName;
     const lastName = user.lastName;
 
@@ -206,7 +206,7 @@ function CanvasPage() {
                 "Content-Type": "application/json"
             },
             data: {
-                token: localStorage.getItem("token_data"),
+                token: localStorage.getItem("token"),
                 id: id
             }
         };

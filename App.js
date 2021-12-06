@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes, Redirect, Switch, Link } from '
 import { render } from "react-dom";
 import Register from "./frontend/Register.js";
 import CharCreate from "./frontend/CharCreate.js";
-import TaskForm from "./frontend/components/TaskForm";
+import QuestForm from "./frontend/components/QuestPage";
 import Login from "./frontend/login.js";
 import './App.css';
 import CanvasPage from "./frontend/components/CanvasPage.js";
@@ -11,6 +11,7 @@ import CanvasPage from "./frontend/components/CanvasPage.js";
 export default function App() {
 
   const token = localStorage.getItem("token")
+  console.log(token);
     // true == active user (logged in)
     const [state, setState] = useState(token !== null && token !== "" ? true : false);
 
@@ -28,13 +29,17 @@ export default function App() {
         return <Redirect to="/" />
     }
 
+    function getUser(token) {
+
+    }
+
     return (
       <Router>
         <Routes>
           <Route path="/" element={<Login/>}/>
           <Route path="/register" element={<Register/>}/> 
           <Route path="/charcreate" element={<CharCreate/>}/>
-          <Route path="/taskPage" element={<TaskForm/>} /> 
+          <Route path="/questPage" element={<QuestForm/>} /> 
           <Route path="/canvas" element={<CanvasPage/>} > 
            {/* {state ? <CanvasPage /> : <Redirect to="/" />} */}
            </Route>

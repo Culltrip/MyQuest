@@ -1,3 +1,70 @@
+:root
+{
+  --backgroundColor: #9aa791;
+  --buttonColor: #89a89e;
+  --ariaSelected: #517470;
+  --buttonHover: #9eac94;
+  --checkSelect: #64706f;
+  --layeringWhite: #ffffffc0;
+  --semiWhite: rgba(255, 255, 255, 0.25);
+  --descSize: 3vw;
+  --deleteRed: rgba(189, 59, 59, 0.8);
+}
+
+:focus-visible{
+  outline: #89a89e auto 0.5px;
+}
+
+#addButton
+{
+  align-self: flex-start;
+  max-width: 46px;
+  margin-right: auto;
+  position: relative;
+  top: 4em;
+  left: 2em;
+}
+
+.addCard, .addCard:hover, .addCard:focus, .addCard:active, .addCard::selection
+{
+  background-color: transparent;
+  border-color: transparent;
+  border-radius: 100px;
+  font-size: 50px;
+  box-shadow: none;
+  line-height: 0px;
+  position: relative;
+}
+
+.addicon
+{
+  font-size: 60px;
+}
+
+.app
+{
+  text-align: center;
+}
+
+.btn-group
+{
+  align-items: center;
+}
+
+.buttonScheme
+{
+  background-color: var(--buttonColor);
+  border-color: transparent;
+  color: white;
+  margin-left: 1%;
+  margin-right: 1%;
+}
+
+.buttonScheme:hover {
+  background-color: #ACBAA1;
+  border-color: transparent;
+}
+
 .canvasBlock
 {
   display: flex;
@@ -5,6 +72,19 @@
   justify-content: center;
   align-items: center;
   margin-bottom: 0.75em;
+}
+
+.card
+{
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid white;
+}
+
+.canvasCards
+{
+  border-radius: 30px;
+  max-height: 75vh;
+  max-width: 40%;
 }
 
 .cardContainer
@@ -22,21 +102,8 @@
   padding-bottom: 70px;
 }
 
-.canvasCards
-{
-  border-radius: 30px;
-  max-height: 75vh;
-  max-width: 40%;
-}
-
-.singleContainer > .canvasCards
-{
-  max-height: fit-content;
-}
-
-.singleContainer > .canvasCards >.cardContent
-{
-  overflow: visible;
+.container{
+  max-width: 97.5vw;
 }
 
 .cardContent
@@ -53,15 +120,81 @@
   border-radius: 15px;
 }
 
-.splitFields
+.cardContent1
 {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-content: flex-start;
+  justify-content: space-evenly;
+}
+
+.cardSizing
+{
   align-items: stretch;
-  gap: 5px;
-  width: auto;
+}
+
+.checkScheme
+{
+  -webkit-appearance: none;
+  background-color: #dfdfdf;
+  border: 3px solid #cacece;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05);
+  padding: 9px;
+  border-radius: 10px;
+  display: inline-block;
+  position: relative;
+  margin-right: 0.5em;
+  margin-top: 0.5em;
+}
+
+.checkScheme:active, .checkScheme:checked:active 
+{
+	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px 1px 3px rgba(0,0,0,0.1);
+}
+
+.checkScheme:checked 
+{
+	background-color: var(--checkSelect);
+	border: 3px solid #ffffff;
+	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05), inset 15px 10px -12px rgba(255,255,255,0.1);
+	color: #99a1a7;
+}
+
+#dateTime
+{
+  display: flex;
+  align-content: center;
+  align-items: stretch;
+  justify-content: center;
+  gap: 2px;
+}
+
+.delListView
+{
+  background-color: transparent;
+  color: var(--deleteRed);
+  position: absolute;
+  right: 5px;
+}
+
+.delListView:hover
+{
+  color: var(--deleteRed);
+}
+
+.desc 
+{
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  font-size: var(--descSize);
+  margin-top: 3em;
+  width: 40vw;
+  z-index: 2;
+}
+
+#desc1
+{
+  margin-left: 1.5em;
 }
 
 .editBtns
@@ -73,41 +206,49 @@
 
 }
 
+.editLine
+{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 1%;
+  column-gap: 15px;
+}
+
 .editRow
 {
   justify-content: center;
 }
 
-.buttonScheme
+.editTask, .listGrid:hover
 {
-  background-color: var(--buttonColor);
-  border-color: transparent;
-  color: white;
-  margin-left: 1%;
-  margin-right: 1%;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 10px;
 }
 
-.buttonScheme:hover {
-  background-color: #ACBAA1;
-  border-color: transparent;
-}
-
-.schedButton
-{
-  margin-right: 10px;
-}
-
-.priority
+#editSched
 {
   align-items: center;
-  align-content: center;
-  padding: auto;
-  margin-bottom: 5px;
 }
 
-.priorityTaskView
+.editStack
 {
-  visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  margin-top: 7px;
+}
+
+.filter
+{
+  margin-left: -0.5%;
+  margin-right: -0.5%;
+}
+
+.filterLimiter
+{
+  white-space: nowrap;
+  margin-bottom: 5px;
 }
 
 .filterBtns
@@ -121,12 +262,135 @@
   min-width: 400px;
 }
 
+.form
+{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  margin-top: 10px;
+  row-gap: 10px;
+}
+
+.form-floating
+{
+  width: 95%;
+}
+
+.formBtn
+{
+  background-color: var(--buttonColor);
+  border-color: transparent;
+  border-radius: 20px;
+  color: white;
+}
+
+#formCard
+{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 2em;
+  border-radius: 20px;
+  padding: 2em 3em 2em;
+}
+
+@media (max-width:700px)
+{
+  #formCard
+  {
+    padding: 0.1em;
+    max-width:70%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+}
+
+@media (min-width:700px)
+{
+  #formCard
+  {
+    max-width:40%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.groupSection
+{
+  display: flex;
+  flex-direction: column;
+}
+
+
+h4.productDesc
+{
+  margin-bottom: 0.75em;
+}
+
+#helpLink
+{
+  text-align: right;
+  font-size: smaller;
+  margin-top: 1%;
+}
+
+#homeText
+{
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  position: relative;
+  margin-left: 4em;
+}
+
+.icons
+{
+  font-size: x-large;
+  font-weight: 500;
+}
+
+.inFields
+{
+  display: flex;
+  border-color: rgb(255, 255, 255);
+  border-style: solid;
+  border-radius: 10px;
+  border-width: 1px;
+  background-color: rgb(255, 255, 255, 0.4);
+  font-size: 20px;
+  margin-left: 1%;
+  margin-right: 1%;
+  padding-left: 5%;
+}
+
+
+.inFields:focus, #newListForm > .inFields:focus
+{
+  background-color: rgb(250, 255, 252);
+}
+
+#landing
+{
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  position: absolute;
+  top: 1em;
+}
+
 .listAdjust
 {
   background-color: var(--semiWhite);
   border-radius: 20px;
   margin-bottom: auto;
   overflow-y: scroll;
+}
+
+#listBar
+{
+  background-color: var(--ariaSelected);
 }
 
 .listCtrl
@@ -143,8 +407,370 @@
   color: var(--ariaSelected);
 }
 
-.icons
+.listGrid
 {
-  font-size: x-large;
-  font-weight: 500;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content:space-between;
+  align-items: center;
+  padding-left: 5px;
+  padding-right: 0px;
+}
+
+.listGrid:hover
+{
+  padding-right: 0px;
+}
+
+.listGrid:hover > .btn-group > .schedTaskView, 
+.cardContent:hover > .listCtrl, 
+.cardContent:hover > .delListView
+{
+  display: inline-block;
+  margin-left: 1%;
+
+}
+
+.listGrid:hover > .btn-group > .schedTaskView:hover
+{
+  color: white;
+
+}
+
+.listGrid:hover > .btn-group > .priorityTaskView
+{
+  visibility: visible;
+}
+
+.listGrid:hover > .listItem > .dateTimeLabel
+{
+  font-size:x-small;
+}
+
+.listItem
+{
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.listTask
+{
+  background-color: transparent;
+  border-color: transparent;
+  padding: 0.25rem 0.75rem;
+}
+
+#forgotButton, #loginButton, #signUpButton, #resetButton
+{
+  margin-top: 1em;
+}
+
+.navi 
+{
+  background-color: transparent;
+  margin-bottom: 0.25%;
+}
+
+.navbar-dark .navbar-nav .nav-link:focus, .navbar-dark .navbar-nav .nav-link:hover 
+{
+  color: white;
+}
+
+.navBtn 
+{
+  background-color: transparent;
+  border-color: white;
+  margin-left: 5px;
+  margin-right: 5px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+
+.navBtn:hover
+{
+  background-color: var(--buttonColor);
+  border-color: #435f4c;
+}
+
+#navTitle
+{
+  margin-bottom: 0;
+}
+
+#newListField
+{
+  display: flex;
+}
+
+#newListForm.form{
+  flex-direction: row;
+  width: 100%;
+  column-gap: 5px;
+  max-height: 40px;
+  margin-top: 0px;
+}
+
+#newListForm > .inFields
+{
+  background-color: rgba(255, 255, 255, 0.844)
+}
+
+#newListSubmit
+{
+  width: 7em;
+}
+
+#newRadios
+{
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  align-items: flex-start;
+  margin-left: 1em;
+  margin-right: 1em;
+  margin-bottom: 1em;
+}
+
+.newTask
+{
+  width: 75%;
+}
+
+#newTaskForm, #newSchedTaskForm
+{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-bottom: 0px;
+  margin-top: 2%;
+  bottom: 0px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.page
+{
+  position:fixed;
+  min-width: 100vw;
+  min-height: 100vh;
+
+  background: linear-gradient(0.19deg, #BBD2C5 -1.76%, #536976 99.85%);
+}
+
+.pageSolid
+{
+  position: absolute;
+  width:auto;
+  height:auto;
+  min-width:100vw;
+  min-height: 100vh;
+
+  background-color: var(--backgroundColor);
+}
+
+.priority
+{
+  align-items: center;
+  align-content: center;
+  padding: auto;
+  margin-bottom: 5px;
+}
+
+.priorityTaskView
+{
+  visibility: hidden;
+}
+
+.productDesc
+{
+  font-size: 2vw;
+  width: 80vw;
+}
+
+#productLine
+{
+ font-size: 6vw;
+}
+
+#productText
+{
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  margin-top: 1em;
+  margin-left: 2em;
+}
+#querySubmit 
+{
+  background-color: var(--ariaSelected);
+}
+
+.singleContainer > .canvasCards >.cardContent
+{
+  overflow: visible;
+}
+
+.singleView
+{
+  color: rgb(45, 77, 65);
+}
+
+.schedButton
+{
+  margin-right: 10px;
+}
+
+.schedDividers
+{
+  text-align: left;
+  font-weight: 600;
+  background-color: transparent;
+}
+
+.schedTaskForm
+{
+  display:flex;
+  flex-direction: row;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.schedTaskView, .listCtrl, .delListView
+{
+  display: none;
+}
+
+#searchQ
+{
+  display: flex;
+  flex-direction: row;
+}
+
+.splitFields
+{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: flex-start;
+  align-items: stretch;
+  gap: 5px;
+  width: auto;
+}
+
+#successBlock
+{
+  display: none;
+  color: green;
+  background-color: white;
+  border-left: thick solid green;
+  margin-bottom: 15px;
+}
+
+.tagline
+{
+  font-size: 8vw;
+  z-index: 2;
+}
+
+.tagline1
+{
+  font-size: 6vw;
+  z-index: 2;
+}
+
+.tagline2
+{
+  margin-top: 1em;
+  font-size: var(--descSize);
+  width: 60vw;
+}
+
+.tagline3
+{
+  font-size: 5vw;
+}
+
+.taskTitle
+{
+ margin-right: auto;
+ line-height: 2;
+}
+
+.taskCtrl
+{
+  border-color: transparent;
+  background-color: transparent;
+  color: var(--ariaSelected);
+}
+
+.taskCtrl:hover 
+{
+  background-color: var(--buttonColor);
+  border-color: transparent;
+}
+
+.taskDel
+{
+  color: var(--deleteRed);
+}
+
+.taskImg
+{
+  position: absolute;
+  z-index: 1;
+}
+#taskImg1
+{
+  left: 50vw;
+  top: 20vh;
+}
+
+#taskImg2
+{
+  transform: rotate(5deg);
+  left: 60vw;
+  top: 33vh;
+}
+
+#title
+{
+  color:rgb(38, 65, 55);
+}
+
+#title1
+{
+  color: white;
+  position: relative;
+  left: -40px;
+  font-weight: 600;
+}
+
+.todo-label
+{
+  inline-size: 250px;
+  font-size: 1.25em;
+  overflow-wrap: normal;
+  text-align: left;
+}
+
+.toDoBar
+{
+  padding: 0;
+  background-color: rgba(255, 255, 255, 0.062);
+  margin-bottom: 0.5em;
+}
+
+.toggle-btn[aria-pressed="true"] 
+{
+  text-decoration: underline;
+  background-color: var(--ariaSelected);
+}
+
+#userWelcome 
+{
+  font-size: 30px;
+  color: white;
 }
