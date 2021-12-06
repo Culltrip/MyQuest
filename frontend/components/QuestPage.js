@@ -224,8 +224,6 @@ function ListPage() {
 
         <View id="canvas"
          className="app"  style={{ backgroundImage: `url(${bg})`, height:"100%", width:"100%" }}>
-            <div className="canvasBlock">
-            </div>
             <View style={styles.menuWrap}>
             <Container className="cardContainer singleContainer" >
                 {listView}
