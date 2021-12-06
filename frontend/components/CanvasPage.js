@@ -6,7 +6,8 @@ import ToDoList from '../components/TaskList';
 import LoggedInName from './LoggedInuser';
 import NewListForm from '../components/NewListForm';
 
-import bp from "../components/Path.js";
+import path from "../components/Path.js";
+
 
 function readLists(props) {
     return new Promise((resolve, reject) => {
@@ -14,12 +15,12 @@ function readLists(props) {
 
         const obj = {
             search: props,
-            token: localStorage.getItem("backend/server")  // fox
+            token: localStorage.getItem("token")  
         };
 
         const config = {
             method: "post",
-            url: bp.buildPath("backend/server"),  //fix 
+            url: path.createQuest,   
             headers: {
                 "Content-Type": "application/json"
             },
@@ -117,7 +118,7 @@ function CanvasPage() {
 
         const config = {
             method: "post",
-            url: bp.buildPath("createQuest"),
+            url: path.createQuest,
             headers: {
                 "Content-Type": "application/json"
             },
@@ -156,7 +157,7 @@ function CanvasPage() {
     function editList(id, title, body) {
         const config = {
             method: "post",
-            url: bp.buildPath("updateQuest"),
+            url: path.editQuest,
             headers: {
                 "Content-Type": "application/json"
             },
@@ -201,7 +202,7 @@ function CanvasPage() {
     function deleteList(id) {
         const config = {
             method: "post",
-            url: bp.buildPath("deleteQuest"),
+            url: path.deleteQuest,
             headers: {
                 "Content-Type": "application/json"
             },

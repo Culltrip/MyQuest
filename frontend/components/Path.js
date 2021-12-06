@@ -20,7 +20,6 @@ path.resendCode = url + '/resendCode';
 path.login = url + '/login';
 path.register = url + '/register';
 
-// finidsh the rest of the api calls
 
 export default path
 

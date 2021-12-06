@@ -7,6 +7,8 @@ import QuestForm from "./frontend/components/QuestPage";
 import Login from "./frontend/login.js";
 import './App.css';
 import CanvasPage from "./frontend/components/CanvasPage.js";
+import NavigationBar from "./frontend/components/NavBar.js";
+import { Container } from "react-bootstrap";
 
 export default function App() {
 
@@ -34,17 +36,18 @@ export default function App() {
     }
 
     return (
+      /* <NavigationBar active={state} onLogout={onLogout}/> */
       <Router>
-        <Routes>
-          <Route path="/" element={<Login/>}/>
-          <Route path="/register" element={<Register/>}/> 
-          <Route path="/charcreate" element={<CharCreate/>}/>
-          <Route path="/questPage" element={<QuestForm/>} /> 
-          <Route path="/canvas" element={<CanvasPage/>} > 
-           {/* {state ? <CanvasPage /> : <Redirect to="/" />} */}
-           </Route>
-        </Routes>
-    </Router>
+          <Routes>
+            <Route path="/" element={<Login/>}/>
+            <Route path="/register" element={<Register/>}/> 
+            <Route path="/charcreate" element={<CharCreate/>}/>
+            <Route path="/questPage" element={<QuestForm/>} /> 
+            <Route path="/canvas" element={<CanvasPage/>} > 
+            {/* {state ? <CanvasPage /> : <Redirect to="/" />} */}
+            </Route>
+          </Routes>
+      </Router>
   );
     
 }

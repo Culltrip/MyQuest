@@ -2,11 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { Container } from 'react-bootstrap';
 import { useParams, Redirect } from "react-router-dom";
 import axios from 'axios';
+import {
+  StyleSheet,
+  Text,
+  View } from 'react-native';
 import bg from "./../assets/background.png"
-
 import TaskList from './TaskList.js';
+import path from "./Path.js";
+import NewListForm from './NewListForm';
 
-import bp from "./Path.js";
 
 function QuestList(id) {
     return new Promise((resolve, reject) => {
@@ -17,7 +21,7 @@ function QuestList(id) {
 
         const config = {
             method: "post",
-            url: bp.buildPath(`listQuest/${id}`),
+            url: path.listQuest,
             headers: {
                 "Content-Type": "application/json"
             },
@@ -94,10 +98,12 @@ function ListPage() {
         />
     );
 
+    
+
     function editList(id, title, body) {
         const config = {
             method: "post",
-            url: bp.buildPath(`/updateQuest/${id}`),
+            url: path.updateQuest, // fix all 
             headers: {
                 "Content-Type": "application/json"
             },
@@ -136,7 +142,7 @@ function ListPage() {
     function deleteList() {
         const config = {
             method: "post",
-            url: bp.buildPath(`/deleteQuest`),
+            url: path.deleteQuest,
             headers: {
                 "Content-Type": "application/json"
             },
@@ -167,16 +173,98 @@ function ListPage() {
             });
     }
 
+    function addList(title) {
+        const obj = {
+            title: title,
+            list: [],
+            token: localStorage.getItem("token")
+        };
+
+        const config = {
+            method: "post",
+            url: path.createQuest,
+            headers: {
+                "Content-Type": "application/json"
+            },
+            data: JSON.stringify(obj)
+        };
+
+        axios(config)
+            .then(function (response) {
+                const res = response.data;
+                if (res.error) {
+                    // setMessage('Error adding list');
+                    // addRes.current.style.display = "inline-block";
+                    console.error(res.error);
+                }
+
+                else {
+                    const listCard = {
+                        title: title,
+                        id: res.id,
+                        body: []
+                    };
+
+                    setShowForm(!showForm);
+                    return setLists([...lists, listCard]);
+                }
+            })
+            .catch(function (error) {
+                if (error.response) {
+                    // setMessage(error.response.data?.error);
+                    // .current.style.display = "inline-block";
+                    console.error(error.response);
+                }
+            });
+    }
+    
+
     return (
-        <div id="canvas" className="app"  style={{ backgroundImage: `url(${bg})`, height:"100%", width:"100%" }}>
+        // <View style={styles.wrap }>
+
+        <View id="canvas"
+         className="app"  style={{ backgroundImage: `url(${bg})`, height:"100%", width:"100%" }}>
             <div className="canvasBlock">
             </div>
+            <View style={styles.menuWrap}>
             <Container className="cardContainer singleContainer" >
                 {listView}
                 {redirect}
             </Container>
-        </div>
+            <NewListForm addList={addList} />
+            </View>
+        </View>
     );
 }
 
 export default ListPage;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  menuWrap:{
+    backgroundColor: "#FBE8B3",
+    marginTop: 30,
+    borderRadius: 25,
+    width: 800,
+    height: "90%",
+    alignItems: "center",
+    borderColor : "#C92D2D",
+    borderWidth: 4,
+    overflow: "hidden",
+    alignSelf: "center"
+  },
+    wrap:{
+    align: "center",
+    backgroundColor:"#a6dee3",
+    alignItems: "center",
+    justifyContent: "center",
+    flex: "1",
+  },
+
+});

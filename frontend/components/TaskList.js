@@ -10,9 +10,6 @@ import ButtonIcons from './ButtonIcons';
 import DeleteConfirmation from './DeleteConfirmation';
 import path from './Path.js'
 // import styles from './../assets/style'
-import { StatusBar } from "expo-status-bar";
-
-import bp from "./Path.js";
 
 function usePrevious(value) {
     const ref = useRef();
@@ -72,7 +69,7 @@ function ToDoList(props) {
                 'Content-Type': 'application/json'
             },
             data: {
-                token: localStorage.getItem("token_data"),
+                token: localStorage.getItem("toke"),
                 completed: completed
             }
         };
@@ -126,7 +123,7 @@ function ToDoList(props) {
                 'Content-Type': 'application/json'
             },
             data: {
-                token: localStorage.getItem("token_data"),
+                token: localStorage.getItem("token"),
                 completed: false,
                 text: name
             }
@@ -159,13 +156,13 @@ function ToDoList(props) {
 
         const config = {
             method: 'post',
-            url: bp.buildPath(`/${props.id}/update/${id}`),
+            url: path.editTask,
             headers:
             {
                 'Content-Type': 'application/json'
             },
             data: {
-                token: localStorage.getItem("token_data"),
+                token: localStorage.getItem("token"),
                 text: newName
             }
         };
@@ -198,12 +195,12 @@ function ToDoList(props) {
         const remainingTasks = tasks.filter(task => id !== task.id);
         const config = {
             method: 'post',
-            url: bp.buildPath(`api/lists/${props.id}/delete/${id}`),
+            url: path.deleteTask,
             headers: {
                 'Content-Type': 'application/json'
             },
             data: {
-                "token": localStorage.getItem("token_data")
+                "token": localStorage.getItem("token")
             }
         };
 
@@ -325,7 +322,7 @@ function ToDoList(props) {
 
     return (
             <View>
-                {delCon ? <DeleteConfirmation id={props.id} handleDelete={handleDelete}/> : (isEditing ? viewTemplate : editingTemplate)}
+                {delCon ? <DeleteConfirmation id={props.id} handleDelete={handleDelete}/> : (isEditing ? editingTemplate : viewTemplate)}
             </View>
     );
 }
