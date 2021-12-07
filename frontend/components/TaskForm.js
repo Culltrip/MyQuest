@@ -3,7 +3,7 @@ import { Container } from 'react-bootstrap';
 import { useParams, Redirect } from "react-router-dom";
 import axios from 'axios';
 
-import ToDoList from './TaskList.js';
+import ToDoList from '/TaskList.js';
 
 import bp from "./Path.js";
 

@@ -15,17 +15,27 @@ import textStyling from './assets/textStyling.css';
 
 
 export default function Register() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  var obj = {email:"", password:"", first:"", last:""}
+  const [errorMessage, setErrorMessage] = React.useState("");
+  var obj = {email:"",password:"",first:"", last:""}
+  const setemail = (email) => {
+    obj.email = email;
+  }
+  const setpassword = (password) => {
+    obj.password = password;
+  }
+  const setfirst = (first) => {
+    obj.first = first;
+  }
+  const setlast = (last) => {
+    obj.last = last;
+  }
+
   const doRegister = async event => 
   {
       console.log(obj)
       //event.preventDefault();
       // FIXME: Pull Login And Password From Our Fields
-      //var obj = {email:"culltrip@gmail.com",password:"COP4331!p"};
       var js = JSON.stringify(obj);
-
       try
       {    
           //
@@ -37,16 +47,17 @@ export default function Register() {
           if( res.error )
           {
               // TODO: Send User Error Message
-              console.log("Error");
+              console.log(res.error.message);
+              setErrorMessage(res.error.message);
           }
           else
           {
               console.log("no error");
-              var user = {FirstName:res.FirstName,LastName:res.LastName, Token:res.Token}
-              localStorage.setItem('user_data', JSON.stringify(user));
-              console.log(user);
-              
-              window.location.href = '/';
+              console.log(res);
+              localStorage.setItem('regi_info', JSON.stringify(obj));
+              console.log(obj);
+              // This is where we will move to auth phase
+              window.location.href = '/auth';
           }
       }
       catch(e)
@@ -65,16 +76,35 @@ export default function Register() {
       <StatusBar style="auto" />
 
       <View style={[styles.regBox, textStyling.bg]}>
-      <Image source={logo} style={{ width: 750, height: 300 }} /> 
+      <Image source={logo} style={{ width: 375, height: 150 }} /> 
 
       <div className="regTitle">The Journey begins...</div>
 
       <View style={styles.inputView}>
         <TextInput
           style={styles.TextInput}
-          placeholder="Username"
+          placeholder="FirstName"
           placeholderTextColor="#003f5c"
-          //onChangeText={(username) => setEmail(username)}
+          onChangeText={(first) => setfirst(first)}
+        />
+      </View>
+
+      <View style={styles.inputView}>
+        <TextInput
+          style={styles.TextInput}
+          placeholder="Last Name"
+          placeholderTextColor="#003f5c"
+          
+          onChangeText={(last) => setlast(last)}
+        />
+      </View>
+
+      <View style={styles.inputView}>
+        <TextInput
+          style={styles.TextInput}
+          placeholder="Email"
+          placeholderTextColor="#003f5c"
+          onChangeText={(email) => setemail(email)}
         />
       </View>
 
@@ -84,36 +114,18 @@ export default function Register() {
           placeholder="Password"
           placeholderTextColor="#003f5c"
           secureTextEntry={true}
-          //onChangeText={(password) => setPassword(password)}
+          onChangeText={(password) => setpassword(password)}
         />
       </View>
 
-      <View style={styles.inputView}>
-        <TextInput
-          style={styles.TextInput}
-          placeholder="Confirm Password"
-          placeholderTextColor="#003f5c"
-          secureTextEntry={true}
-          //onChangeText={(password) => setPassword(password)}
-        />
-      </View>
-
-      <View style={styles.inputView}>
-        <TextInput
-          style={styles.TextInput}
-          placeholder="Email"
-          placeholderTextColor="#003f5c"
-          //onChangeText={(email) => setEmail(email)}
-        />
-      </View>
-
-      <TouchableOpacity style={styles.loginBtn}>
+      <TouchableOpacity onPress = {() => doRegister()} style={styles.loginBtn}> 
         <Text style={styles.buttonText}>Embark!</Text>
       </TouchableOpacity>
 
       <TouchableOpacity onPress = {() => goHome()} style={styles.nvm}>
         <Text style={styles.buttonText}>Return to Login</Text>
       </TouchableOpacity>
+      {errorMessage && (<p className="error"> {errorMessage} </p>)}
       </View>
     </View>
   );

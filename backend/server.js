@@ -34,7 +34,6 @@ const POOL_INFO = {
     UserPoolId: POOL_ID,
     ClientId: CLIENT_ID
 };
-
 const cogAccount = new AmazonCognitoIdentity.CognitoUserPool(POOL_INFO);
 
 const auth = (req, res, next) => 
@@ -79,6 +78,7 @@ app.use((req, res, next) =>
     'Access-Control-Allow-Methods',
     'GET, POST, PATCH, DELETE, OPTIONS'
   );
+  res.setHeader('Access-Control-Allow-Credentials', true);
   next();
 });
 

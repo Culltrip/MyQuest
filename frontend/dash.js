@@ -16,12 +16,12 @@ import bg from './assets/background.png';
 import Register from "./register";
 import textStyling from './assets/textStyling.css';
 
-export default function Login() {
+export default function Dash() {
   var obj = {email:"",password:""}
   const [errorMessage, setErrorMessage] = React.useState("");
-  const doRegister = async event => 
+  const doLogout = async event => 
   {
-    window.location.href = '/register';
+    window.location.href = '/..';
   }
   // Function To Log User In
   // Takes Email and 
@@ -55,7 +55,7 @@ export default function Login() {
                 localStorage.setItem('user_data', JSON.stringify(user));
                 console.log(user);
                 // TODO: Route To Dashboard Page And Send User Info
-                window.location.href = '/dash';
+                // window.location.href = '/';
             }
       }
       catch(e)
@@ -165,40 +165,30 @@ export default function Login() {
       <View style={styles.menuWrap}>
       <StatusBar style="auto" />
 
-      <Image source={logo} style={{ width: 750, height: 300 }} /> 
-
-      <div className="loginTitle">Where your everyday tasks make you the hero.</div>
+      <TouchableOpacity onPress = {() => doLogout()} style={[styles.registerBtn, styles.shadowProp]}>
+        <Text style={styles.loginText}>Add Quest</Text>
+      </TouchableOpacity>
 
       <View style={[styles.inputView, styles.shadowProp]}>
         <TextInput
           style={styles.TextInput}
-          placeholder="Email"
+          placeholder="Search"
           placeholderTextColor="#003f5c"
           onChangeText={(email) => setEmail(email)}
         />
       </View>
 
-      <View style={[styles.inputView, styles.shadowProp]}>
-        <TextInput
-          style={styles.TextInput}
-          placeholder="Password"
-          placeholderTextColor="#003f5c"
-          secureTextEntry={true}
-          onChangeText={(password) => setPassword(password)}
-        />
-      </View>
-
-      <TouchableOpacity>
-        <Text style={styles.forgot_button}>Forgot Password?</Text>
+      <TouchableOpacity onPress = {() => doLogout()} style={[styles.registerBtn, styles.shadowProp]}>
+        <Text style={styles.loginText}>Complete</Text>
       </TouchableOpacity>
-
-      <TouchableOpacity onPress = {() => doLogin()} style={[styles.loginBtn, styles.shadowProp]}>
-        <Text style={styles.loginText}>LOGIN</Text>
+      <TouchableOpacity onPress = {() => doLogout()} style={[styles.registerBtn, styles.shadowProp]}>
+        <Text style={styles.loginText}>Edit</Text>
       </TouchableOpacity>
-      {/* <div className="subText">New here, adventurer? Begin your journey </div> --> */}
-
-      <TouchableOpacity onPress = {() => doRegister()} style={[styles.registerBtn, styles.shadowProp]}>
-        <Text style={styles.loginText}>Register</Text>
+      <TouchableOpacity onPress = {() => doLogout()} style={[styles.registerBtn, styles.shadowProp]}>
+        <Text style={styles.loginText}>Delete</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress = {() => doLogout()} style={[styles.registerBtn, styles.shadowProp]}>
+        <Text style={styles.loginText}>Logout</Text>
       </TouchableOpacity>
       {errorMessage && (<p className="error"> {errorMessage} </p>)}
     </View>

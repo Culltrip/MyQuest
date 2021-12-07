@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Route, Routes, Redirect, Switch, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Switch, Link } from 'react-router-dom';
 import { render } from "react-dom";
-import Register from "./frontend/Register.js";
+import Register from "./frontend/register.js";
 import CharCreate from "./frontend/CharCreate.js";
-import TaskForm from "./frontend/components/TaskForm";
-import Login from "./frontend/login.js";
-import './App.css';
-import CanvasPage from "./frontend/components/CanvasPage.js";
+//import TaskForm from "./frontend/components/TaskForm";
+import Login from "./frontend/Login.js";
+import Auth from "./frontend/auth.js";
+import Dash from "./frontend/dash.js";
+//import './App.css';
+//import CanvasPage from "./frontend/components/CanvasPage.js";
 
 export default function App() {
 
@@ -15,29 +17,31 @@ export default function App() {
     const [state, setState] = useState(token !== null && token !== "" ? true : false);
 
     // Set user vars to access the Canvas page
-    function onLogin(active)
-    {
-        setState(active);
-        return <Redirect to="/canvas"/>
-    }
+    //function onLogin(active)
+    //{
+        //setState(active);
+        //return <Redirect to="/canvas"/>
+    //}
 
     // clear all fields on logout
-    function onLogout(active)
-    {
-        setState(active);
-        return <Redirect to="/" />
-    }
+    //function onLogout(active)
+    //{
+        //setState(active);
+        //return <Redirect to="/" />
+    //}
 
     return (
       <Router>
         <Routes>
           <Route path="/" element={<Login/>}/>
           <Route path="/register" element={<Register/>}/> 
+          <Route path="/auth" element={<Auth/>}/>
           <Route path="/charcreate" element={<CharCreate/>}/>
-          <Route path="/taskPage" element={<TaskForm/>} /> 
-          <Route path="/canvas" element={<CanvasPage/>} > 
+          <Route path="/dash" element={<Dash/>}/>
+          {/* <Route path="/taskPage" element={<TaskForm/>} />  */}
+          {/* <Route path="/canvas" element={<CanvasPage/>} >  */}
            {/* {state ? <CanvasPage /> : <Redirect to="/" />} */}
-           </Route>
+           {/* </Route> */}
         </Routes>
     </Router>
   );
