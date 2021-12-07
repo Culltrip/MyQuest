@@ -108,7 +108,7 @@ function ListPage() {
     function editList(id, title, body) {
         const config = {
             method: "post",
-            url: path.updateQuest, // fix all 
+            url: path.updateQuest, 
             headers: {
                 "Content-Type": "application/json"
             },
@@ -187,9 +187,7 @@ function ListPage() {
         const config = {
             method: "post",
             url: path.createQuest,
-            headers: {
-                "Content-Type": "application/json"
-            },
+            headers: {Authorization: `Bearer ${token}`},
         };
 
         axios.post(path.createQuest, obj, config)

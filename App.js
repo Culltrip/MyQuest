@@ -9,6 +9,7 @@ import './App.css';
 import CanvasPage from "./frontend/components/CanvasPage.js";
 import NavigationBar from "./frontend/components/NavBar.js";
 import { Container } from "react-bootstrap";
+import Auth from "./frontend/auth.js";
 
 export default function App() {
 
@@ -43,9 +44,7 @@ export default function App() {
             <Route path="/register" element={<Register/>}/> 
             <Route path="/charcreate" element={<CharCreate/>}/>
             <Route path="/questPage" element={<QuestForm/>} /> 
-            <Route path="/canvas" element={<CanvasPage/>} > 
-            {/* {state ? <CanvasPage /> : <Redirect to="/" />} */}
-            </Route>
+            <Route path="/auth" element={<Auth/>}/>
           </Routes>
       </Router>
   );

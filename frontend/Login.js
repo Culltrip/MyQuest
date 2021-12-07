@@ -60,7 +60,7 @@ export default function Login() {
                 localStorage.setItem('user_data', JSON.stringify(user));
                 console.log(user);
                 // TODO: Route To Dashboard Page And Send User Info
-                window.location.href = '/dash';
+                window.location.href = '/questPage';
             }
       }
       catch(e)
