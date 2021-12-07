@@ -441,9 +441,9 @@ h4.productDesc
   padding-right: 0px;
 }
 
-.listGrid:hover > .btn-group > .schedTaskView, 
-.cardContent:hover > .listCtrl, 
-.cardContent:hover > .delListView
+.listGrid:hover > .btn-group > .schedTaskView 
+/*.cardContent:hover > .listCtrl,
+.cardContent:hover > .delListView*/
 {
   display: inline-block;
   margin-left: 1%;

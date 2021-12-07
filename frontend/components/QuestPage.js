@@ -10,6 +10,7 @@ import bg from "./../assets/background.png"
 import TaskList from './TaskList.js';
 import path from "./Path.js";
 import NewListForm from './NewListForm';
+import Accordion from '@mui/material/Accordion';
 
 
 function QuestList(id) {
@@ -232,6 +233,7 @@ function ListPage() {
          className="app"  style={{ backgroundImage: `url(${bg})`, height:"100%", width:"100%" }}>
             <View style={styles.menuWrap}>
             <Container className="cardContainer singleContainer" >
+                <Text>Welcome to your Quest Dashboard, Hero!</Text>
                 {listView}
                 {redirect}
             </Container>
