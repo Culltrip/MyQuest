@@ -13,6 +13,8 @@ import NewListForm from './NewListForm';
 
 
 function QuestList(id) {
+    
+
     return new Promise((resolve, reject) => {
 
         const obj = {
@@ -66,7 +68,9 @@ function useForceUpdate() {
 }
 
 function ListPage() {
-    
+    const [quests, setQuests] = useState([])
+    const [tasks, setTasks] = useState([])
+
     const { list_id } = useParams();
 
     const forceUpdate = useForceUpdate();
@@ -143,13 +147,8 @@ function ListPage() {
         const config = {
             method: "post",
             url: path.deleteQuest,
-            headers: {
-                "Content-Type": "application/json"
-            },
-            data: {
-                token: localStorage.getItem("token"),
-                id: list_id
-            }
+            headers: {Authorization: `Bearer ${token}`},
+            id: list_id
         };
 
         axios(config)
@@ -174,48 +173,55 @@ function ListPage() {
     }
 
     function addList(title) {
+        
         const obj = {
             title: title,
             list: [],
             token: localStorage.getItem("token")
         };
-
+        
+        const quest = [...quests, obj]
+        setQuests(quest);
+        
         const config = {
             method: "post",
             url: path.createQuest,
             headers: {
                 "Content-Type": "application/json"
             },
-            data: JSON.stringify(obj)
         };
 
-        axios(config)
-            .then(function (response) {
-                const res = response.data;
-                if (res.error) {
-                    // setMessage('Error adding list');
-                    // addRes.current.style.display = "inline-block";
-                    console.error(res.error);
-                }
+        axios.post(path.createQuest, obj, config)
+        .catch(error => console.error('Error: ', error));
 
-                else {
-                    const listCard = {
-                        title: title,
-                        id: res.id,
-                        body: []
-                    };
 
-                    setShowForm(!showForm);
-                    return setLists([...lists, listCard]);
-                }
-            })
-            .catch(function (error) {
-                if (error.response) {
-                    // setMessage(error.response.data?.error);
-                    // .current.style.display = "inline-block";
-                    console.error(error.response);
-                }
-            });
+        // axios(config)
+        //     .then(function (response) {
+        //         const res = response.data;
+        //         if (res.error) {
+        //             // setMessage('Error adding list');
+        //             // addRes.current.style.display = "inline-block";
+        //             console.error(res.error);
+        //         }
+
+        //         else {
+        //             const listCard = {
+        //                 title: title,
+        //                 id: res.id,
+        //                 body: []
+        //             };
+
+        //             setShowForm(!showForm);
+        //             return setLists([...lists, listCard]);
+        //         }
+        //     })
+        //     .catch(function (error) {
+        //         if (error.response) {
+        //             // setMessage(error.response.data?.error);
+        //             // .current.style.display = "inline-block";
+        //             console.error(error.response);
+        //         }
+        //     });
     }
     
 
@@ -229,7 +235,7 @@ function ListPage() {
                 {listView}
                 {redirect}
             </Container>
-            <NewListForm addList={addList} />
+            <NewListForm addList={addList}  />
             </View>
         </View>
     );
