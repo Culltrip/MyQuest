@@ -18,7 +18,7 @@ const DeleteConfirmation = (props) =>
 
     return(
         <Card.Body>
-            <p>Are you sure you would like to delete?</p>
+            <p>Adventurer! Giving up so soon? Are you sure you would like to end this quest?</p>
             <Form>
                 <Button name="true" onClick={choice}>Yes</Button>
                 <Button name="false" onClick={choice}>No</Button>

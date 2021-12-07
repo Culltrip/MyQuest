@@ -1,7 +1,7 @@
 :root
 {
   --backgroundColor: #9aa791;
-  --buttonColor: #89a89e;
+  --buttonColor: #BCA3AC;
   --ariaSelected: #517470;
   --buttonHover: #9eac94;
   --checkSelect: #64706f;
@@ -55,9 +55,11 @@
 {
   background-color: var(--buttonColor);
   border-color: transparent;
-  color: white;
-  margin-left: 1%;
-  margin-right: 1%;
+  border-radius: 15px;
+  color: #c92d2d;
+  font-weight: bold;
+  font-family: 'Times New Roman', Times, serif;
+  width: 100px;
 }
 
 .buttonScheme:hover {
@@ -170,7 +172,7 @@
 
 .delListView
 {
-  background-color: transparent;
+  background-color: #BCA3AC;
   color: var(--deleteRed);
   position: absolute;
   right: 5px;
@@ -359,10 +361,26 @@ h4.productDesc
   border-radius: 10px;
   border-width: 1px;
   background-color: rgb(255, 255, 255, 0.4);
-  font-size: 20px;
+  font-size: 18px;
+  font-family: 'Times New Roman', Times, serif;
   margin-left: 1%;
   margin-right: 1%;
   padding-left: 5%;
+}
+
+.descBox
+{ 
+  border-color: rgb(255, 255, 255);
+  border-style: solid;
+  border-radius: 10px;
+  border-width: 1px;
+  align-self: 'auto';
+  font-size: 12px;
+  text-align: left;
+  height: 75px;
+  background-color: rgba(209, 26, 26, 0.4);
+  font-size: 20px;
+
 }
 
 
@@ -395,7 +413,7 @@ h4.productDesc
 
 .listCtrl
 {
-  background-color: transparent;
+  background-color: #BCA3AC;
   color: var(--ariaSelected);
   position: absolute;
   right: 50px;
@@ -542,10 +560,9 @@ h4.productDesc
 {
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  margin-bottom: 0px;
-  margin-top: 2%;
+  margin-bottom: 4px;
   bottom: 0px;
+  width: auto;
   margin-left: auto;
   margin-right: auto;
 }

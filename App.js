@@ -21,7 +21,7 @@ export default function App() {
     function onLogin(active)
     {
         setState(active);
-        return <Redirect to="/canvas"/>
+        return <Redirect to="/questPage"/>
     }
 
     // clear all fields on logout

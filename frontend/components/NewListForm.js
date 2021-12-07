@@ -12,7 +12,7 @@ function NewListForm(props)
 
     const show = useRef(null);
     const focus = useRef(null);
-    let err = "*Your list needs a name"
+    let err = "*Your list needs a name!"
 
     const handleChange = (e) =>
     {

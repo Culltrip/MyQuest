@@ -259,7 +259,7 @@ function ToDoList(props) {
                         className="buttonScheme schedButton"
                         onClick={() => setEditing(false)}
                     >
-                        Cancel
+                        Test
                     </Button>
                     <Button type="submit" className="buttonScheme schedButton">
                         Save
@@ -276,6 +276,11 @@ function ToDoList(props) {
         <NewTaskForm addTask={addTask} />
     </Card.Body>
     );
+
+/*      filter list view
+            <div className="filterBtns priority">
+                {filterList}
+            </div> */
 
     const viewTemplate = (
         <Card.Body className="cardContent">
@@ -294,15 +299,12 @@ function ToDoList(props) {
                 <ButtonIcons type="Edit" />
             </button>
             <button 
-                type="button" 
+                type="button"
                 className="btn delListView" 
                 onClick={() => setDelCon(true)}
             >
                 <ButtonIcons type="Delete" />
             </button>
-            <div className="filterBtns priority">
-                {filterList}
-            </div>
             <ListGroup variant="flush" className="listAdjust">
                 {taskList?.length < 1 ? <p><br />Add a new task below</p> : taskList}
             </ListGroup>
