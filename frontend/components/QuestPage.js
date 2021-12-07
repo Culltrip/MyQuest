@@ -11,6 +11,7 @@ import TaskList from './TaskList.js';
 import path from "./Path.js";
 import NewListForm from './NewListForm';
 import Accordion from '@mui/material/Accordion';
+import NotDash from './Dashboard';
 
 
 function QuestList(id) {
@@ -103,7 +104,15 @@ function ListPage() {
         />
     );
 
-    
+    // needs input to pass props into the accordian
+    const dashView = (
+        <NotDash
+            name={}
+            date={}
+            description={}
+            urgency={}
+        />
+    );    
 
     function editList(id, title, body) {
         const config = {
@@ -235,11 +244,13 @@ function ListPage() {
                 {listView}
                 {redirect}
             </Container>
-            <NewListForm addList={addList}  />
+            {dashView}
             </View>
         </View>
     );
 }
+
+// <NewListForm addList={addList}  />
 
 export default ListPage;
 

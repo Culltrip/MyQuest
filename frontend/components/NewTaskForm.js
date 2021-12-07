@@ -69,12 +69,17 @@ function NewTaskForm(props)
             show.current.style.display = "none";
         }
 
-
-        if(props.type === "Priority")
-        {
-            props.addTask(state.name);
+        if(state.urgency === ""){
+            show.current.style.display = "inline-block";
+            focus.current.focus();
+            return;
         }
         else 
+        {
+            show.current.style.display = "none";
+        }
+
+
         {
             props.addTask(state.name, state.date, state.description);
         }

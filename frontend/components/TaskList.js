@@ -118,77 +118,35 @@ function ToDoList(props) {
     function addTask(name) {
         const config = {
             method: 'post',
-            url: path.addTask,
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            url: path.createQuest,
             data: {
                 token: localStorage.getItem("token"),
                 completed: false,
-                text: name
+                text: name,
+                text: date,
+                text: urgency,
+                text: description
             }
         };
 
-        axios(config)
-            .then(function (response) {
-                const res = response.data;
-                if (res.error) {
-                    setMessage('Error adding list');
-                    addRes.current.style.display = "inline-block";
-                    return;
-                }
-
-                const newTask = {
-                    type: "Priority",
-                    id: res.id,
-                    text: name,
-                    completed: false
-                };
-
-                setTasks([...tasks, newTask]);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+        //const config = {method: "post",  url: path.createQuest, headers: {Authorization: `Bearer ${token}`}, };  
+        axios.post(path.createQuest, obj, config) 
+        .catch(error => console.error('Error: ', error));
     }
 
     function editTask(id, newName) {
 
         const config = {
             method: 'post',
-            url: path.editTask,
-            headers:
-            {
-                'Content-Type': 'application/json'
-            },
+            url: path.updateQuest,
             data: {
                 token: localStorage.getItem("token"),
                 text: newName
             }
         };
 
-        axios(config)
-            .then(function (response) {
-                var res = response.data;
-                if (res.error) {
-                    setMessage('Error editing task');
-                    addRes.current.style.display = "inline-block";
-                    return;
-                }
-
-                const editedTaskList = tasks.map(task => {
-                    // if this task has the same ID as the edited task
-                    if (id === task.id)
-                        return { ...task, text: newName }
-        
-                    return task;
-                });
-
-                setTasks(editedTaskList);
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
+        axios.post(path.updateQuest, obj, config) 
+        .catch(error => console.error('Error: ', error));
     }
 
     function deleteTask(id) {
