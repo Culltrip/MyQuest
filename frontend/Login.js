@@ -15,25 +15,31 @@ import logo from './assets/QU3ST2.png';
 import bg from './assets/background.png';
 import Register from "./register";
 import textStyling from './assets/textStyling.css';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+
+
 
 export default function Login() {
   var obj = {email:"",password:""}
   const [errorMessage, setErrorMessage] = React.useState("");
-  const handleClick = () => {
-    setErrorMessage("Incorrect Email Password Combination")
-  }
   const doRegister = async event => 
   {
     window.location.href = '/register';
   }
+  // Function To Log User In
+  // Takes Email and 
+  // Returns Error JSON If Error Occured
+  // Returns Token If Valid
   const doLogin = async event => 
   {
-      console.log(obj)
+
+      console.log(obj);
       //event.preventDefault();
       // FIXME: Pull Login And Password From Our Fields
       //var obj = {email:"culltrip@gmail.com",password:"COP4331!p"};
       var js = JSON.stringify(obj);
-
       try
       {    
           //
@@ -42,23 +48,20 @@ export default function Login() {
 
           var res = JSON.parse(await response.text());
           //console.log(res);
-          if( res.error )
-          {
-              // TODO: Send User Error Message
-              console.log("Error");
-              handleClick();
-
-          }
-          else
-          {
-              console.log("no error");
-              var user = {FirstName:res.FirstName,LastName:res.LastName, Token:res.Token}
-              localStorage.setItem('user_data', JSON.stringify(user));
-              console.log(user);
-              
-              // TODO: Route To Dashboard Page And Send User Info
-              // window.location.href = '/';
-          }
+            if( res.error )
+            {
+              console.log(res.error)
+              setErrorMessage(res.error.message);
+            }
+            else
+            {
+                console.log("no error");
+                var user = {FirstName:res.FirstName,LastName:res.LastName, Token:res.Token}
+                localStorage.setItem('user_data', JSON.stringify(user));
+                console.log(user);
+                // TODO: Route To Dashboard Page And Send User Info
+                window.location.href = '/questPage';
+            }
       }
       catch(e)
       {
@@ -80,9 +83,9 @@ export default function Login() {
     const setPassword = (password) => {
       obj.password = password;
     }
-    
 
    return (
+
     <View style={styles.wrap}>
       <ImageBackground source={bg} style={{width: '100%', height: '100%', alignItems: 'center'}}>
 
@@ -130,6 +133,7 @@ export default function Login() {
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {

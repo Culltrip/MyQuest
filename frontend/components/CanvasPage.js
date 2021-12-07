@@ -4,9 +4,10 @@ import axios from 'axios';
 
 import ToDoList from '../components/TaskList';
 import LoggedInName from './LoggedInuser';
-import NewListForm from '../components/NewTaskForm';
+import NewListForm from '../components/NewListForm';
 
-import bp from "../components/Path.js";
+import path from "../components/Path.js";
+
 
 function readLists(props) {
     return new Promise((resolve, reject) => {
@@ -14,12 +15,12 @@ function readLists(props) {
 
         const obj = {
             search: props,
-            token: localStorage.getItem("token_data")
+            token: localStorage.getItem("token")  
         };
 
         const config = {
             method: "post",
-            url: bp.buildPath("api/lists/read"),
+            url: path.createQuest,   
             headers: {
                 "Content-Type": "application/json"
             },
@@ -70,7 +71,7 @@ function CanvasPage() {
     // userId: ####
     // title: list name
     // body: array of tasks
-    const user = JSON.parse(localStorage.getItem('user_data'));
+    const user = JSON.parse(localStorage.getItem('user_data'));  // is it user data?
     const firstName = user.firstName;
     const lastName = user.lastName;
 
@@ -117,7 +118,7 @@ function CanvasPage() {
 
         const config = {
             method: "post",
-            url: bp.buildPath("createQuest"),
+            url: path.createQuest,
             headers: {
                 "Content-Type": "application/json"
             },
@@ -156,7 +157,7 @@ function CanvasPage() {
     function editList(id, title, body) {
         const config = {
             method: "post",
-            url: bp.buildPath("updateQuest"),
+            url: path.editQuest,
             headers: {
                 "Content-Type": "application/json"
             },
@@ -201,12 +202,12 @@ function CanvasPage() {
     function deleteList(id) {
         const config = {
             method: "post",
-            url: bp.buildPath("deleteQuest"),
+            url: path.deleteQuest,
             headers: {
                 "Content-Type": "application/json"
             },
             data: {
-                token: localStorage.getItem("token_data"),
+                token: localStorage.getItem("token"),
                 id: id
             }
         };

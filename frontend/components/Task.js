@@ -134,7 +134,7 @@ function Task(props)
 
     // Renders on conditional of editing or viewing
     return(
-        <div className="todo">
+        <div className="task">
             {isEditing ? editingTemplate : viewTemplate}
         </div>
     );

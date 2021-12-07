@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Button, Card, ListGroup } from 'react-bootstrap';
-import {ImageBackground, View, StyleSheet} from 'react-native';
+import {ImageBackground, View, StyleSheet, TextInput} from 'react-native';
 import axios from 'axios';
 import bg from './../assets/background.png'
 import Task from './Task';
@@ -8,9 +8,8 @@ import FilterButtons from './FilterButtons';
 import NewTaskForm from './NewTaskForm';
 import ButtonIcons from './ButtonIcons';
 import DeleteConfirmation from './DeleteConfirmation';
-import styles from './../assets/style'
-
-import bp from "./Path.js";
+import path from './Path.js'
+// import styles from './../assets/style'
 
 function usePrevious(value) {
     const ref = useRef();
@@ -64,13 +63,13 @@ function ToDoList(props) {
         
         const config = {
             method: 'post',
-            url: bp.buildPath(`api/lists/${props.id}/update/${id}`),
+            url: path.updateTask,
             headers:
             {
                 'Content-Type': 'application/json'
             },
             data: {
-                token: localStorage.getItem("token_data"),
+                token: localStorage.getItem("toke"),
                 completed: completed
             }
         };
@@ -119,89 +118,46 @@ function ToDoList(props) {
     function addTask(name) {
         const config = {
             method: 'post',
-            url: bp.buildPath(`api/lists/${props.id}/create`),
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            url: path.createTask,
             data: {
-                token: localStorage.getItem("token_data"),
+                token: localStorage.getItem("token"),
                 completed: false,
-                text: name
+                text: name,
+                text: date,
+                text: urgency,
+                text: description
             }
         };
 
-        axios(config)
-            .then(function (response) {
-                const res = response.data;
-                if (res.error) {
-                    setMessage('Error adding list');
-                    addRes.current.style.display = "inline-block";
-                    return;
-                }
-
-                const newTask = {
-                    type: "Priority",
-                    id: res.id,
-                    text: name,
-                    completed: false
-                };
-
-                setTasks([...tasks, newTask]);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+        //const config = {method: "post",  url: path.createQuest, headers: {Authorization: `Bearer ${token}`}, };  
+        axios.post(path.createTask, obj, config) 
+        .catch(error => console.error('Error: ', error));
     }
 
     function editTask(id, newName) {
 
         const config = {
             method: 'post',
-            url: bp.buildPath(`api/lists/${props.id}/update/${id}`),
-            headers:
-            {
-                'Content-Type': 'application/json'
-            },
+            url: path.updateTask,
+            headers: {Authorization: `Bearer ${token}`},
             data: {
-                token: localStorage.getItem("token_data"),
+                token: localStorage.getItem("token"),
                 text: newName
             }
         };
 
-        axios(config)
-            .then(function (response) {
-                var res = response.data;
-                if (res.error) {
-                    setMessage('Error editing task');
-                    addRes.current.style.display = "inline-block";
-                    return;
-                }
-
-                const editedTaskList = tasks.map(task => {
-                    // if this task has the same ID as the edited task
-                    if (id === task.id)
-                        return { ...task, text: newName }
-        
-                    return task;
-                });
-
-                setTasks(editedTaskList);
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
+        axios.post(path.updateTask, obj, config) 
+        .catch(error => console.error('Error: ', error));
     }
 
     function deleteTask(id) {
         const remainingTasks = tasks.filter(task => id !== task.id);
         const config = {
             method: 'post',
-            url: bp.buildPath(`api/lists/${props.id}/delete/${id}`),
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            url: path.deleteTask,
+            headers: {Authorization: `Bearer ${token}`},
             data: {
-                "token": localStorage.getItem("token_data")
+                "token": localStorage.getItem("token")
             }
         };
 
@@ -242,43 +198,46 @@ function ToDoList(props) {
     }
 
     const editingTemplate = (
-    <ImageBackground source={bg} style={{width: '100%', height: '100%', alignItems: 'center'}}>
-        <Card.Body className="cardContent">
-            <form className="form editTask" onSubmit={handleSubmit}>
-                <div className="editFields splitFields">
-                    <input
-                        id={props.id}
-                        name="name"
-                        className="todo-text inFields"
-                        type="text"
-                        value={name}
-                        onChange={handleChange}
-                        ref={editFieldRef}
-                    />
-                    <div className="editBtns editRow">
-                        <Button
-                            type="button"
-                            className="buttonScheme schedButton"
-                            onClick={() => setEditing(false)}
-                        >
-                            Cancel
-                        </Button>
-                        <Button type="submit" className="buttonScheme schedButton">
-                            Save
-                        </Button>
-                    </div>
+    <Card.Body className="cardContent">
+        <form className="form editTask" onSubmit={handleSubmit}>
+            <div className="editFields splitFields">
+                <input
+                    id={props.id}
+                    name="name"
+                    className="todo-text inFields"
+                    type="text"
+                    value={name}
+                    onChange={handleChange}
+                    ref={editFieldRef}
+                />
+                <div className="editBtns editRow">
+                    <Button
+                        type="button"
+                        className="buttonScheme schedButton"
+                        onClick={() => setEditing(false)}
+                    >
+                        Test
+                    </Button>
+                    <Button type="submit" className="buttonScheme schedButton">
+                        Save
+                    </Button>
                 </div>
-            </form>
+            </div>
+        </form>
+        <div className="filterBtns priority">
+            {filterList}
+        </div>
+        <ListGroup variant="flush" className="listAdjust">
+            {taskList}
+        </ListGroup>
+        <NewTaskForm addTask={addTask} />
+    </Card.Body>
+    );
+
+/*      filter list view
             <div className="filterBtns priority">
                 {filterList}
-            </div>
-            <ListGroup variant="flush" className="listAdjust">
-                {taskList}
-            </ListGroup>
-            <NewTaskForm addTask={addTask} />
-        </Card.Body>
-        </ImageBackground>
-    );
+            </div> */
 
     const viewTemplate = (
         <Card.Body className="cardContent">
@@ -297,15 +256,12 @@ function ToDoList(props) {
                 <ButtonIcons type="Edit" />
             </button>
             <button 
-                type="button" 
+                type="button"
                 className="btn delListView" 
                 onClick={() => setDelCon(true)}
             >
                 <ButtonIcons type="Delete" />
             </button>
-            <div className="filterBtns priority">
-                {filterList}
-            </div>
             <ListGroup variant="flush" className="listAdjust">
                 {taskList?.length < 1 ? <p><br />Add a new task below</p> : taskList}
             </ListGroup>
@@ -324,15 +280,108 @@ function ToDoList(props) {
     }, [wasEditing, isEditing]);
 
     return (
-        <ImageBackground source={bg} style={{width: '100%', height: '100%', alignItems: 'center'}}>
-            <Card className="app canvasCards">
+            <View>
                 {delCon ? <DeleteConfirmation id={props.id} handleDelete={handleDelete}/> : (isEditing ? editingTemplate : viewTemplate)}
-            </Card>
-        </ImageBackground>
+            </View>
     );
 }
 
 export default ToDoList;
 
 
-      
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  menuWrap:{
+    backgroundColor: "#FBE8B3",
+    marginTop: 30,
+    borderRadius: 25,
+    width: 800,
+    height: "90%",
+    alignItems: "center",
+    borderColor : "#C92D2D",
+    borderWidth: 4,
+    overflow: "hidden",
+  },
+
+  wrap:{
+    align: "center",
+    backgroundColor:"#a6dee3",
+    alignItems: "center",
+    justifyContent: "center",
+    flex: "1",
+  },
+
+  image: {
+    marginTop: -10,
+    marginBottom: 20,
+    width: 300,
+    height: 100,
+  },
+
+  inputView: {
+    backgroundColor: "#A1869E",
+    borderRadius: 30,
+    width: "30%",
+    height: 40,
+    marginBottom: 14,
+    alignItems: "center",
+  },
+
+  loginText:{
+    fontFamily: "Garamond, serif",
+    fontWeight: "bold",
+    color: "white",
+  },
+
+  TextInput: {
+    height: 50,
+    flex: 1,
+    textAlign: 'center',
+  },
+
+  forgot_button: {
+    height: 30,
+    paddingTop: 10,
+    marginBottom: 10,
+    alignItems: 'center',
+    fontFamily: "Garamond, serif",
+    fontSize: 14,
+    fontWeight: "bolder",
+    marginTop: -10,
+    marginBottom: 10,
+    padding: 20,
+  },
+
+  shadowProp: {
+    shadowColor: '#171717',
+    shadowOffset: {width: -2, height: 4},
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+  },
+
+  loginBtn: {
+    width: "40%",
+    borderRadius: 25,
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 20,
+    backgroundColor: "#797596",
+  },
+
+  registerBtn: {
+    width: "40%",
+    borderRadius: 25,
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 20,
+    backgroundColor: "#797596",
+  },
+});      
