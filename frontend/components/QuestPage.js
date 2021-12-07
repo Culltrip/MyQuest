@@ -11,12 +11,11 @@ import TaskList from './TaskList.js';
 import path from "./Path.js";
 import NewListForm from './NewListForm';
 import Accordion from '@mui/material/Accordion';
-import NotDash from './Dashboard';
+import Dashboard from './Dashboard';
 
 
 function QuestList(id) {
     
-
     return new Promise((resolve, reject) => {
 
         const obj = {
@@ -26,9 +25,7 @@ function QuestList(id) {
         const config = {
             method: "post",
             url: path.listQuest,
-            headers: {
-                "Content-Type": "application/json"
-            },
+            headers: {Authorization: `Bearer ${token}`},
             data: obj
         };
         axios(config)
@@ -82,8 +79,6 @@ function ListPage() {
     useEffect(() => {
         QuestList(list_id)
         .then(list => {
-            if (!list)
-                setRedirect(<Redirect to="/canvas"/>);
             setList(list);
         })
         .catch(_ => {
@@ -99,28 +94,26 @@ function ListPage() {
             key={list.key}
             tasks={list.body}
             singleView={true}
-            editList={editList}
-            deleteList={deleteList}
+            editList={editQuest}
+            deleteList={deleteQuest}
         />
     );
 
     // needs input to pass props into the accordian
     const dashView = (
-        <NotDash
-            name={}
-            date={}
-            description={}
-            urgency={}
+        <Dashboard
+            name={""}
+            date={""}
+            description={""}
+            urgency={""}
         />
     );    
 
-    function editList(id, title, body) {
+    function editQuest(id, title, body) {
         const config = {
             method: "post",
             url: path.updateQuest, 
-            headers: {
-                "Content-Type": "application/json"
-            },
+            headers: {Authorization: `Bearer ${token}`},
             data: {
                 token: localStorage.getItem("token"),
                 id: id,
@@ -129,31 +122,11 @@ function ListPage() {
             }
         };
 
-        axios(config)
-            .then(function (response) {
-                const res = response.data;
-                if (res.error) {
-                    // setMessage('Error adding list');
-                    // addRes.current.style.display = "inline-block";
-                    console.error(res.error);
-                    return;
-                }
-                list.title = title;
-                list.body = body;
-                setList(list);
-                forceUpdate();
-
-                })
-            .catch(function (error) {
-                if (error.response) {
-                    // setMessage(error.response.data?.error);
-                    // .current.style.display = "inline-block";
-                    console.error(error.response);
-                }
-            });
+        axios.post(path.editQuest, obj, config)
+        .catch(error => console.error('Error: ', error));
     }
 
-    function deleteList() {
+    function deleteQuest() {
         const config = {
             method: "post",
             url: path.deleteQuest,
@@ -161,37 +134,17 @@ function ListPage() {
             id: list_id
         };
 
-        axios(config)
-            .then(function (response) {
-                const res = response.data;
-                if (res.error) {
-                    // setMessage('Error adding list');
-                    // addRes.current.style.display = "inline-block";
-                    console.error(res.error);
-                    return;
-                }
-
-                setRedirect(<Redirect to="/canvas"/>);
-            })
-            .catch(function (error) {
-                if (error.response) {
-                    // setMessage(error.response.data?.error);
-                    // .current.style.display = "inline-block";
-                    console.error(error.response);
-                }
-            });
+       axios.post(path.deleteQuest, obj, config)
+       .catch(error => console.error('Error: ', error));
     }
 
-    function addList(title) {
+    function addQuest(title) {
         
         const obj = {
             title: title,
             list: [],
             token: localStorage.getItem("token")
         };
-        
-        const quest = [...quests, obj]
-        setQuests(quest);
         
         const config = {
             method: "post",
@@ -201,37 +154,7 @@ function ListPage() {
 
         axios.post(path.createQuest, obj, config)
         .catch(error => console.error('Error: ', error));
-
-
-        // axios(config)
-        //     .then(function (response) {
-        //         const res = response.data;
-        //         if (res.error) {
-        //             // setMessage('Error adding list');
-        //             // addRes.current.style.display = "inline-block";
-        //             console.error(res.error);
-        //         }
-
-        //         else {
-        //             const listCard = {
-        //                 title: title,
-        //                 id: res.id,
-        //                 body: []
-        //             };
-
-        //             setShowForm(!showForm);
-        //             return setLists([...lists, listCard]);
-        //         }
-        //     })
-        //     .catch(function (error) {
-        //         if (error.response) {
-        //             // setMessage(error.response.data?.error);
-        //             // .current.style.display = "inline-block";
-        //             console.error(error.response);
-        //         }
-        //     });
     }
-    
 
     return (
         // <View style={styles.wrap }>

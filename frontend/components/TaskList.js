@@ -118,7 +118,7 @@ function ToDoList(props) {
     function addTask(name) {
         const config = {
             method: 'post',
-            url: path.createQuest,
+            url: path.createTask,
             data: {
                 token: localStorage.getItem("token"),
                 completed: false,
@@ -130,7 +130,7 @@ function ToDoList(props) {
         };
 
         //const config = {method: "post",  url: path.createQuest, headers: {Authorization: `Bearer ${token}`}, };  
-        axios.post(path.createQuest, obj, config) 
+        axios.post(path.createTask, obj, config) 
         .catch(error => console.error('Error: ', error));
     }
 
@@ -138,14 +138,15 @@ function ToDoList(props) {
 
         const config = {
             method: 'post',
-            url: path.updateQuest,
+            url: path.updateTask,
+            headers: {Authorization: `Bearer ${token}`},
             data: {
                 token: localStorage.getItem("token"),
                 text: newName
             }
         };
 
-        axios.post(path.updateQuest, obj, config) 
+        axios.post(path.updateTask, obj, config) 
         .catch(error => console.error('Error: ', error));
     }
 
@@ -154,9 +155,7 @@ function ToDoList(props) {
         const config = {
             method: 'post',
             url: path.deleteTask,
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: {Authorization: `Bearer ${token}`},
             data: {
                 "token": localStorage.getItem("token")
             }

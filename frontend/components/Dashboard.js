@@ -23,7 +23,7 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 
     <View>
         <Accordion>
-         <AccordionSummary style = { {backgroundColor: "#BCA3AC", width: 750}}>
+         <AccordionSummary style = { {backgroundColor: "#BCA3AC", width: 750, borderRadius: 5}}>
           <Text style = {styles.questTitle}>{obj.name}</Text>
           <Text> Due Date - {obj.date} </Text>
         </AccordionSummary>
