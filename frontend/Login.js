@@ -15,6 +15,11 @@ import logo from './assets/QU3ST2.png';
 import bg from './assets/background.png';
 import Register from "./register";
 import textStyling from './assets/textStyling.css';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+
+
 
 export default function Login() {
   var obj = {email:"",password:""}

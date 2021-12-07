@@ -10,6 +10,7 @@ import bg from "./../assets/background.png"
 import TaskList from './TaskList.js';
 import path from "./Path.js";
 import NewListForm from './NewListForm';
+import Accordion from '@mui/material/Accordion';
 
 
 function QuestList(id) {
@@ -226,6 +227,48 @@ function ListPage() {
          className="app"  style={{ backgroundImage: `url(${bg})`, height:"100%", width:"100%" }}>
             <View style={styles.menuWrap}>
             <Container className="cardContainer singleContainer" >
+                <Text>Welcome to your Quest Dashboard, Hero!</Text>
+                <div>
+      <Accordion>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+        >
+          <Typography>Accordion 1</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Typography>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+            malesuada lacus ex, sit amet blandit leo lobortis eget.
+          </Typography>
+        </AccordionDetails>
+      </Accordion>
+      <Accordion>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel2a-content"
+          id="panel2a-header"
+        >
+          <Typography>Accordion 2</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Typography>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+            malesuada lacus ex, sit amet blandit leo lobortis eget.
+          </Typography>
+        </AccordionDetails>
+      </Accordion>
+      <Accordion disabled>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel3a-content"
+          id="panel3a-header"
+        >
+          <Typography>Disabled Accordion</Typography>
+        </AccordionSummary>
+      </Accordion>
+    </div>
                 {listView}
                 {redirect}
             </Container>
