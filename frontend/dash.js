@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { BrowserRouter as Router, Route, Routes, Redirect, Switch, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Redirect, Switch, Link, useParams } from 'react-router-dom';
 import React, { useState } from "react";
 import {
   StyleSheet,
@@ -15,21 +15,176 @@ import logo from './assets/QU3ST2.png';
 import bg from './assets/background.png';
 import Register from "./register";
 import textStyling from './assets/textStyling.css';
+import Dashboard from './components/Dashboard'
+import Table from './table'
 
-export default function Login() {
-  var obj = {email:"",password:""}
+export default function Dash() {
+  //var obj = {email:"",password:""}
   const [errorMessage, setErrorMessage] = React.useState("");
-  const doRegister = async event => 
+  var cod = JSON.parse(localStorage.getItem('user_data'));
+  var index;
+  var curr_quest_id;
+  var token = cod.Token
+  var questName = '';
+  var description = '';
+
+  var questArr = [
+    {
+      name:"name",
+      description:"description1"
+    }
+  ]
+
+   const columns = React.useMemo(
+    () => [
+      {
+        Header: "Quest Log",
+        columns: [
+          {
+            Header: "Quest Title",
+            accessor: "name"
+          },
+          {
+            Header: "Quest Description",
+            accessor: "description"
+          }
+        ]
+      }
+    ]
+  );
+ 
+  console.log(columns);
+
+  console.log(cod);
+  const doLogout = async event => 
   {
-    window.location.href = '/register';
+    window.location.href = '/..';
   }
+  const doAdd = async event => 
+  {
+    window.location.href = '/add';
+  }
+
+  const getQuests = async event => 
+  {
+    console.log(cod);
+      //event.preventDefault();
+      // FIXME: Pull Login And Password From Our Fields
+      var obj = {};
+      var js = JSON.stringify(obj);
+      try
+      {    
+          //
+          const response = await fetch('http://quest-task.herokuapp.com/api/listQuests',
+              {method:'POST',body:js,headers:{'Content-Type': 'application/json', 'Authorization': token}});
+
+          var res = JSON.parse(await response.text());
+          console.log(res);
+            if( res.error )
+            {
+              console.log("error getting quest id list");
+              console.log(res.error)
+              setErrorMessage(res.error.message);
+            }
+            else
+            {
+                console.log("no error getting quest id list");
+                var hen = res.quests;
+                //var quests = {FirstName:res.FirstName,LastName:res.LastName, Token:res.Token}
+                //localStorage.setItem('quests', JSON.stringify(quests));
+                //console.log(user);
+                // TODO: Route To Dashboard Page And Send User Info
+                // window.location.href = '/';
+                // For Loop To View All Quest IDs
+
+                quests = [];
+                for (let i = 0; i < hen.length; i++) 
+                {
+                  curr_quest_id = hen[i];
+                  index = i;
+                  viewQuests();
+                }
+    
+                  // curr_quest_id = questID[i]
+                  // index = i
+                  // viewQuest (within this we set  = return value)
+            }
+      }
+      catch(e)
+      {
+          alert(e.toString());
+          return;
+      }    
+  };
+  const viewQuests = async event => 
+  {
+    console.log(cod);
+      //event.preventDefault();
+      // FIXME: Pull Login And Password From Our Fields
+      var obj = {id:curr_quest_id};
+      var js = JSON.stringify(obj);
+      try
+      {    
+          //
+          const response = await fetch('http://quest-task.herokuapp.com/api/viewQuest',
+              {method:'POST',body:js,headers:{'Content-Type': 'application/json', 'Authorization': token}});
+
+          var res = JSON.parse(await response.text());
+          console.log(res);
+            if( res.error )
+            {
+              console.log("error reading quests");
+              console.log(res.error)
+              setErrorMessage(res.error.message);
+            }
+            else
+            {
+                console.log("no error reading quests");
+                console.log(res.quest);
+                var quests = {
+                  questName:res.quest.name,
+                  description:res.quest.description, 
+                  // isFinised:res.name.isFinised,
+                  // dueDate:res.name.due,
+                  // urgency:res.name.urgency
+                };
+
+                questArr.push(res.quest);
+
+                questName = res.quest.name;
+                description=res.quest.description;
+                console.log(questName)
+                console.log(description)
+
+                
+
+                //localStorage.setItem('quests', JSON.stringify(quests));
+                //console.log(user);
+                // TODO: Route To Dashboard Page And Send User Info
+                // window.location.href = '/';
+            }
+      }
+      catch(e)
+      {
+          alert(e.toString());
+          return;
+      }    
+  };
+
+  // const viewTable = (
+  //   <View>
+  //     <Table questName={questName} description={description} />
+  //   </View>
+  // )
+
+
+
   // Function To Log User In
   // Takes Email and 
   // Returns Error JSON If Error Occured
   // Returns Token If Valid
   const doLogin = async event => 
   {
-
       console.log(obj);
       //event.preventDefault();
       // FIXME: Pull Login And Password From Our Fields
@@ -51,9 +206,9 @@ export default function Login() {
             else
             {
                 console.log("no error");
-                var user = {FirstName:res.user.FirstName,LastName:res.user.LastName, Token:res.user.Token}
+                //var user = {FirstName:res.FirstName,LastName:res.LastName, Token:res.Token}
                 localStorage.setItem('user_data', JSON.stringify(user));
-                console.log(user);
+                //console.log(user);
                 // TODO: Route To Dashboard Page And Send User Info
                 window.location.href = '/dash';
             }
@@ -78,6 +233,28 @@ export default function Login() {
     const setPassword = (password) => {
       obj.password = password;
     }
+
+    function ShowDashboard() {
+      var obj = {id:curr_quest_id};
+      const [title, setTitle] = useState([])
+      const [description, setDescription] = useState([])
+      const [quest, setQuest] = useState([])
+      const {quest_id} =useParams()
+
+      
+      const listView = (
+        <Dashboard
+          title={quest.title}
+          description={quest.description}
+          />
+      )
+
+    }
+
+
+
+
+
     // const [message,setMessage] = useState('');
     // const email = useRef(null);
     // const pwd = useRef(null);
@@ -164,42 +341,43 @@ export default function Login() {
 
       <View style={styles.menuWrap}>
       <StatusBar style="auto" />
+      <div className="regTitle">Welcome Hero!</div>
+      <TouchableOpacity onPress = {() => doLogout()} style={[styles.registerBtn, styles.shadowProp]}>
+        <Text style={styles.loginText}>Logout</Text>
+      </TouchableOpacity>
 
-      <Image source={logo} style={{ width: 750, height: 300 }} /> 
-
-      <div className="loginTitle">Where your everyday tasks make you the hero.</div>
-
+      <TouchableOpacity onPress = {() => doAdd()} style={[styles.registerBtn, styles.shadowProp]}>
+        <Text style={styles.loginText}>Add Quest</Text>
+      </TouchableOpacity>
+      <div className="regTitle">Quest Log</div>
       <View style={[styles.inputView, styles.shadowProp]}>
         <TextInput
           style={styles.TextInput}
-          placeholder="Email"
+          placeholder="Search"
           placeholderTextColor="#003f5c"
           onChangeText={(email) => setEmail(email)}
         />
       </View>
-
-      <View style={[styles.inputView, styles.shadowProp]}>
-        <TextInput
-          style={styles.TextInput}
-          placeholder="Password"
-          placeholderTextColor="#003f5c"
-          secureTextEntry={true}
-          onChangeText={(password) => setPassword(password)}
-        />
+     
+      {/* <Dashboard /> */}
+      {/* {ShowDashboard} */}
+      {/* <Table columns={quests.questName} data={quests.description} /> */}
+      
+      <View>
+        <Table columns={columns} data={questArr} />
       </View>
 
-      <TouchableOpacity>
-        <Text style={styles.forgot_button}>Forgot Password?</Text>
+      <TouchableOpacity onPress = {() => getQuests()} style={[styles.registerBtn, styles.shadowProp]}>
+        <Text style={styles.loginText}>Complete</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress = {() => doLogin()} style={[styles.loginBtn, styles.shadowProp]}>
-        <Text style={styles.loginText}>LOGIN</Text>
+      <TouchableOpacity onPress = {() => doLogout()} style={[styles.registerBtn, styles.shadowProp]}>
+        <Text style={styles.loginText}>Edit</Text>
       </TouchableOpacity>
-      {/* <div className="subText">New here, adventurer? Begin your journey </div> --> */}
-
-      <TouchableOpacity onPress = {() => doRegister()} style={[styles.registerBtn, styles.shadowProp]}>
-        <Text style={styles.loginText}>Register</Text>
+      <TouchableOpacity onPress = {() => doLogout()} style={[styles.registerBtn, styles.shadowProp]}>
+        <Text style={styles.loginText}>Delete</Text>
       </TouchableOpacity>
+      
       {errorMessage && (<p className="error"> {errorMessage} </p>)}
     </View>
     </ImageBackground>
